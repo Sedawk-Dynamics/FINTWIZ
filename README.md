@@ -200,3 +200,5 @@ rendered on demand. Security headers are set in `next.config.ts`.
 Set the SMTP variables from `.env.example` in the hosting environment, and set
 the canonical origin in `SITE_URL` (`lib/site.ts`) if it differs from
 `https://www.fintwizwealth.com`.
+#   F I N T W I Z  
+ 

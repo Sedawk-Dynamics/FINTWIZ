@@ -1,0 +1,447 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+   Fintwiz Wealth design tokens
+
+   Palette is derived from the client's draft direction: a deep navy ink, a
+   brass accent and a forest teal on warm paper. Values here are the deepened
+   variants that actually pass WCAG AA at the sizes they are used.
+
+   Every colour in the site must come from a token in this file. Nothing is
+   hardcoded in a component, which is what keeps the dark theme honest.
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* Core surfaces */
+  --paper: #ffffff;
+  --parchment: #f4f2ed;
+  --parchment-deep: #ebe7de;
+
+  /* Ink */
+  --ink: #0e1b2b;
+  --ink-deep: #081320;
+  --ink-soft: #1b2b3f;
+
+  /* Accents */
+  --brass: #8c7a54;
+  --brass-bright: #b39b68;
+  --brass-deep: #6b5c3d;
+  --teal: #1b3a34;
+  --teal-bright: #2f7d6c;
+  --teal-soft: #e4efeb;
+
+  --slate: #56606c;
+  --slate-light: #7b8593;
+
+  /* Semantic (shadcn-compatible) */
+  --background: var(--parchment);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: #ffffff;
+  --secondary: var(--parchment-deep);
+  --secondary-foreground: var(--ink);
+  --muted: #f0ede6;
+  --muted-foreground: var(--slate);
+  --accent: var(--teal-soft);
+  --accent-foreground: var(--teal);
+  --destructive: #a8321f;
+
+  --border: rgb(14 27 43 / 0.12);
+  --border-strong: rgb(14 27 43 / 0.22);
+  --input: rgb(14 27 43 / 0.2);
+  --ring: var(--teal-bright);
+
+  /* House rule: interactive elements never exceed this radius.
+     No pill-shaped buttons anywhere on this site. */
+  --radius: 3px;
+
+  /* Field = a full-bleed dark band (hero, footer, feature sections) */
+  --field: var(--ink-deep);
+  --field-foreground: #f3f1ec;
+  --field-muted: rgb(243 241 236 / 0.62);
+  --field-border: rgb(243 241 236 / 0.14);
+
+  --shadow-card: 0 1px 2px rgb(14 27 43 / 0.04), 0 12px 28px -18px rgb(14 27 43 / 0.28);
+  --shadow-lift: 0 2px 4px rgb(14 27 43 / 0.05), 0 22px 44px -24px rgb(14 27 43 / 0.34);
+
+  /* Button surfaces are declared explicitly per theme rather than composed
+     from --ink, because --ink inverts between themes and a composed rule
+     silently produces white-on-white in dark mode. */
+  --btn-primary-bg: #0e1b2b;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-bg-hover: #1b3a34;
+
+  --btn-accent-bg: #2f7d6c;
+  --btn-accent-fg: #ffffff;
+  --btn-accent-bg-hover: #1b3a34;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --paper: #161a20;
+  --parchment: #0f1216;
+  --parchment-deep: #1b1f26;
+
+  --ink: #f2f0ea;
+  --ink-deep: #0b0e12;
+  --ink-soft: #d8d5cd;
+
+  --brass: #c9a968;
+  --brass-bright: #dcc189;
+  --brass-deep: #b08f4f;
+  --teal: #7fc3b3;
+  --teal-bright: #4fa394;
+  --teal-soft: #16302b;
+
+  --slate: #9ca3ac;
+  --slate-light: #7d858f;
+
+  --background: var(--parchment);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: #f2f0ea;
+  --primary-foreground: #0b0e12;
+  --secondary: var(--parchment-deep);
+  --secondary-foreground: var(--ink);
+  --muted: #1b1f26;
+  --muted-foreground: var(--slate);
+  --accent: var(--teal-soft);
+  --accent-foreground: #a9d9cd;
+  --destructive: #e06a55;
+
+  --border: rgb(242 240 234 / 0.13);
+  --border-strong: rgb(242 240 234 / 0.24);
+  --input: rgb(242 240 234 / 0.22);
+  --ring: var(--teal-bright);
+
+  --field: #080b0f;
+  --field-foreground: #f3f1ec;
+  --field-muted: rgb(243 241 236 / 0.6);
+  --field-border: rgb(243 241 236 / 0.12);
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 28px -18px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.45), 0 22px 44px -24px rgb(0 0 0 / 0.75);
+
+  /* Inverted: a light button face with dark type reads as primary on a dark page. */
+  --btn-primary-bg: #f2f0ea;
+  --btn-primary-fg: #0b0e12;
+  --btn-primary-bg-hover: #dcc189;
+
+  --btn-accent-bg: #4fa394;
+  --btn-accent-fg: #04100d;
+  --btn-accent-bg-hover: #7fc3b3;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-paper: var(--paper);
+  --color-parchment: var(--parchment);
+  --color-parchment-deep: var(--parchment-deep);
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-ink-soft: var(--ink-soft);
+  --color-brass: var(--brass);
+  --color-brass-bright: var(--brass-bright);
+  --color-brass-deep: var(--brass-deep);
+  --color-teal: var(--teal);
+  --color-teal-bright: var(--teal-bright);
+  --color-teal-soft: var(--teal-soft);
+  --color-slate: var(--slate);
+  --color-slate-light: var(--slate-light);
+
+  --color-field: var(--field);
+  --color-field-foreground: var(--field-foreground);
+  --color-field-muted: var(--field-muted);
+  --color-field-border: var(--field-border);
+
+  --color-btn-primary: var(--btn-primary-bg);
+  --color-btn-primary-fg: var(--btn-primary-fg);
+  --color-btn-primary-hover: var(--btn-primary-bg-hover);
+  --color-btn-accent: var(--btn-accent-bg);
+  --color-btn-accent-fg: var(--btn-accent-fg);
+  --color-btn-accent-hover: var(--btn-accent-bg-hover);
+
+  --radius-sm: 2px;
+  --radius-md: var(--radius);
+  --radius-lg: 5px;
+
+  --shadow-card: var(--shadow-card);
+  --shadow-lift: var(--shadow-lift);
+
+  --font-sans:
+    var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", sans-serif;
+  --font-display:
+    var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono:
+    var(--font-plex-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, monospace;
+
+  --animate-ticker: ticker 44s linear infinite;
+  --animate-drift: drift 26s ease-in-out infinite;
+  --animate-sheen: sheen 5.5s ease-in-out infinite;
+  --animate-accordion-down: accordion-down 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-accordion-up: accordion-up 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Declared here rather than relying on a plugin, so the accordion cannot
+   silently lose its height transition on a dependency bump. */
+@keyframes accordion-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes ticker {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) scale(1.035);
+  }
+}
+
+@keyframes sheen {
+  0%,
+  55%,
+  100% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.55;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "kern" 1, "liga" 1, "cv05" 1;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Tabular figures everywhere a number is doing work: registration numbers,
+     minimums, dates. Keeps ledger-style columns from wobbling. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background-color: var(--teal-bright);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  /* Anchored headings clear the sticky masthead */
+  [id] {
+    scroll-margin-top: 6.5rem;
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* A hairline that survives both themes without looking muddy */
+  .hairline {
+    border-color: var(--border);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* Editorial rule used to open sections */
+  .rule-lead::before {
+    content: "";
+    display: inline-block;
+    width: 1.75rem;
+    height: 1px;
+    margin-right: 0.75rem;
+    vertical-align: middle;
+    background-color: currentColor;
+    opacity: 0.65;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Fine grid used behind dark fields. Pure CSS, no image request. */
+  .field-grid {
+    background-image:
+      linear-gradient(to right, var(--field-border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--field-border) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+}
+
+@layer utilities {
+  .section-y {
+    padding-block: 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-y {
+      padding-block: 7rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .section-y {
+      padding-block: 8.5rem;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion policy: everything decorative stops for prefers-reduced-motion.
+   Reveals resolve to their final state rather than disappearing.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .motion-safe-only {
+    display: none !important;
+  }
+}

@@ -3,6 +3,7 @@ import { Mail, ShieldCheck } from "lucide-react";
 import { SectionHeading, RegBadge } from "@/components/shared/Section";
 import { Reveal } from "@/components/shared/Reveal";
 import { Button } from "@/components/ui/button";
+import { DiamondField } from "@/components/brand/Motif";
 import { site } from "@/lib/site";
 
 /**
@@ -17,11 +18,12 @@ export function Officer() {
     .join("");
 
   return (
-    <section className="bg-field text-field-foreground">
+    <section className="brand-rule relative bg-field text-field-foreground">
       <div className="container-page section-y">
         <SectionHeading
           onField
           eyebrow="Accountability"
+          index="06"
           title="A named person is answerable for this website."
           lead="Regulatory pages often avoid saying who is responsible. The person below is responsible for the accuracy of the roster, the disclosures, and the handling of any complaint you raise."
         />
@@ -35,7 +37,7 @@ export function Officer() {
             <h3 className="text-[1.6rem] text-field-foreground">
               {site.officer.name}
             </h3>
-            <p className="mt-2 font-mono text-[0.76rem] tracking-[0.06em] text-brass-bright">
+            <p className="mt-2 font-mono text-[0.76rem] tracking-[0.06em] text-gold-bright">
               {site.officer.roleLine}
             </p>
 
@@ -85,11 +87,11 @@ function MonogramPlate({ initials }: { initials: string }) {
       aria-hidden="true"
       className="relative flex size-52 items-center justify-center rounded-md border border-field-border bg-white/[0.03] lg:size-60"
     >
-      <div className="field-grid absolute inset-0 rounded-md opacity-60" />
+      <DiamondField className="rounded-md text-field-border opacity-70" scale={40} />
       <span className="relative font-display text-[3.4rem] font-medium text-field-foreground/85">
         {initials}
       </span>
-      <span className="absolute inset-x-7 bottom-6 h-px bg-brass/60" />
+      <span className="absolute inset-x-7 bottom-6 h-px bg-gold/60" />
       <span className="absolute bottom-2.5 font-mono text-[0.58rem] tracking-[0.2em] text-field-muted uppercase">
         Principal Officer
       </span>

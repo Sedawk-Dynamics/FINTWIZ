@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useReducedMotion } from "motion/react";
 import { heroVideo } from "@/lib/media";
+import { DiamondField } from "@/components/brand/Motif";
 
 /**
  * Ambient footage behind the hero.
@@ -61,7 +62,7 @@ export function HeroAmbient() {
       <div className="absolute inset-0 bg-field/[0.58]" />
       <div className="absolute inset-0 bg-gradient-to-r from-field via-field/82 to-field/25" />
       <div className="absolute inset-0 bg-gradient-to-t from-field via-transparent to-field/55" />
-      <div className="field-grid absolute inset-0 opacity-45" />
+      <DiamondField className="text-field-border opacity-70" scale={62} />
     </div>
   );
 }

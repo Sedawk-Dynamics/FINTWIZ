@@ -3,6 +3,7 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { site } from "@/lib/site";
 import { standardRiskLine } from "@/lib/compliance";
+import { DiamondField } from "@/components/brand/Motif";
 
 const companyRows = [
   { k: "Legal entity", v: site.legalName },
@@ -18,11 +19,8 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-field text-field-muted">
-      <div
-        aria-hidden="true"
-        className="field-grid pointer-events-none absolute inset-0 opacity-[0.55]"
-      />
+    <footer className="brand-rule relative overflow-hidden bg-field text-field-muted">
+      <DiamondField className="text-field-border opacity-60" scale={68} />
 
       <div className="container-page relative pt-20 pb-10">
         {/* Statutory identity block, kept above the navigation on purpose */}
@@ -30,7 +28,7 @@ export function Footer() {
           aria-label="Company and regulatory details"
           className="rounded-md border border-field-border bg-white/[0.025] p-6 md:p-8"
         >
-          <h2 className="eyebrow text-brass-bright">Company details</h2>
+          <h2 className="eyebrow text-gold-bright">Company details</h2>
           <dl className="mt-6 grid gap-x-12 gap-y-0 sm:grid-cols-2">
             {companyRows.map((row) => (
               <div
@@ -56,7 +54,7 @@ export function Footer() {
               href={`mailto:${site.contact.general}`}
               className="link-underline mt-5 inline-flex items-center gap-2 text-[0.875rem] text-field-foreground"
             >
-              <Mail aria-hidden="true" className="size-4 text-brass-bright" />
+              <Mail aria-hidden="true" className="size-4 text-gold-bright" />
               {site.contact.general}
             </a>
           </div>
@@ -92,7 +90,7 @@ function FooterColumn({
 }) {
   return (
     <nav aria-label={title}>
-      <h2 className="eyebrow text-brass-bright">{title}</h2>
+      <h2 className="eyebrow text-gold-bright">{title}</h2>
       <ul className="mt-5 space-y-3">
         {links.map((link) => (
           <li key={link.href}>

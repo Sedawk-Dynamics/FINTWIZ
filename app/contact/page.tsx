@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { ArrowUpRight, Clock, Mail, Scale, ShieldAlert } from "lucide-react";
+import { photography } from "@/lib/media";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading, DisclosureNote, RegBadge } from "@/components/shared/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/shared/Reveal";
@@ -64,7 +66,7 @@ export default function ContactPage() {
               href={`mailto:${site.contact.compliance}`}
             />
             <div className="flex items-center gap-3 rounded-md border border-field-border bg-white/[0.03] px-4 py-3">
-              <Clock aria-hidden="true" className="size-4 shrink-0 text-brass-bright" />
+              <Clock aria-hidden="true" className="size-4 shrink-0 text-gold-bright" />
               <p className="text-[0.8125rem] text-field-muted">
                 {site.contact.responseWindow}
               </p>
@@ -91,7 +93,7 @@ export default function ContactPage() {
             <div className="lg:pt-24">
               <Reveal delay={0.12}>
                 <div className="rounded-md border border-border bg-secondary p-7 md:p-8">
-                  <p className="eyebrow rule-lead text-brass-deep">
+                  <p className="eyebrow rule-lead text-gold-deep">
                     Before you write
                   </p>
                   <h3 className="mt-4 text-[1.2rem] text-ink">
@@ -150,7 +152,7 @@ export default function ContactPage() {
           <RevealGroup className="mt-14 grid gap-px overflow-hidden rounded-md border border-border bg-border md:grid-cols-3">
             {site.officer.roles.map((role) => (
               <RevealItem key={role} as="article" className="bg-card p-7">
-                <p className="eyebrow text-brass-deep">{role}</p>
+                <p className="eyebrow text-gold-deep">{role}</p>
                 <p className="mt-4 font-display text-[1.2rem] font-medium text-ink">
                   {site.officer.name}
                 </p>
@@ -167,8 +169,24 @@ export default function ContactPage() {
       </section>
 
       {/* Grievance escalation */}
-      <section id="grievance" className="bg-field text-field-foreground">
-        <div className="container-page section-y">
+      <section
+        id="grievance"
+        className="brand-rule relative isolate overflow-hidden bg-field text-field-foreground"
+      >
+        {/* SEBI Bhavan, held right back. The escalation path on this page ends
+            at the regulator, so the building is the subject, not decoration. */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <Image
+            src={photography.regulator.src}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center opacity-[0.16]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-field via-field/90 to-field/60" />
+        </div>
+
+        <div className="container-page relative section-y">
           <SectionHeading
             onField
             eyebrow="Grievance redressal"
@@ -183,7 +201,7 @@ export default function ContactPage() {
                 as="article"
                 className="flex h-full flex-col rounded-md border border-field-border bg-white/[0.025] p-7"
               >
-                <span className="font-mono text-[0.72rem] tracking-[0.14em] text-brass-bright tnum">
+                <span className="font-mono text-[0.72rem] tracking-[0.14em] text-gold-bright tnum">
                   {stage.step}
                 </span>
                 <h3 className="mt-4 text-[1.05rem] text-field-foreground">
@@ -197,7 +215,7 @@ export default function ContactPage() {
                   {...("external" in stage.action && stage.action.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="link-underline mt-auto inline-flex items-center gap-1.5 pt-5 font-mono text-[0.78rem] text-brass-bright"
+                  className="link-underline mt-auto inline-flex items-center gap-1.5 pt-5 font-mono text-[0.78rem] text-gold-bright"
                 >
                   {stage.action.label}
                   {"external" in stage.action && stage.action.external ? (
@@ -235,9 +253,9 @@ function ContactTile({
   return (
     <a
       href={href}
-      className="flex items-center gap-3 rounded-md border border-field-border bg-white/[0.03] px-4 py-3 transition-colors duration-200 hover:border-brass/50"
+      className="flex items-center gap-3 rounded-md border border-field-border bg-white/[0.03] px-4 py-3 transition-colors duration-200 hover:border-gold/50"
     >
-      <Icon aria-hidden="true" className="size-4 shrink-0 text-brass-bright" />
+      <Icon aria-hidden="true" className="size-4 shrink-0 text-gold-bright" />
       <span className="min-w-0">
         <span className="block font-mono text-[0.6rem] tracking-[0.14em] text-field-muted uppercase">
           {label}

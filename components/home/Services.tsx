@@ -7,7 +7,7 @@ import { services } from "@/lib/site";
 
 export function Services() {
   return (
-    <section className="relative isolate overflow-hidden bg-field text-field-foreground">
+    <section className="brand-rule relative isolate overflow-hidden bg-field text-field-foreground">
       {/* Architecture, held well back so it reads as depth rather than decoration */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <Image
@@ -24,6 +24,7 @@ export function Services() {
         <SectionHeading
           onField
           eyebrow="What we actually do"
+          index="03"
           title="Distribution, not discretion."
           lead="Four things, done properly. Selecting a portfolio manager is a research and paperwork problem, not a stock-picking one, and that is the part we take off your desk."
         />
@@ -40,7 +41,7 @@ export function Services() {
                 <div className="flex items-center gap-4">
                   <span
                     aria-hidden="true"
-                    className="inline-flex size-10 items-center justify-center rounded-md border border-field-border text-brass-bright transition-colors duration-300 group-hover:border-brass"
+                    className="inline-flex size-10 items-center justify-center rounded-md border border-field-border text-gold-bright transition-colors duration-300 group-hover:border-gold"
                   >
                     <Icon className="size-[1.1rem]" />
                   </span>

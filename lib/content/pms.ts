@@ -42,7 +42,7 @@ export const structureComparison = {
   },
   pms: {
     label: "Portfolio Management Service",
-    tone: "teal" as const,
+    tone: "azure" as const,
     stages: [
       {
         title: "Your money stays yours",

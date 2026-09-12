@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { Reveal } from "@/components/shared/Reveal";
 import { jsonLdScript, breadcrumbJsonLd } from "@/lib/seo";
 import { cn } from "@/lib/utils";
+import { DiamondField } from "@/components/brand/Motif";
 
 /**
  * Inner-page masthead. Dark field so inner pages inherit the same weight as
@@ -28,17 +29,14 @@ export function PageHero({
   return (
     <section
       className={cn(
-        "relative isolate overflow-hidden bg-field text-field-foreground",
+        "brand-rule relative isolate overflow-hidden bg-field text-field-foreground",
         className,
       )}
     >
+      <DiamondField className="text-field-border opacity-70" scale={58} />
       <div
         aria-hidden="true"
-        className="field-grid pointer-events-none absolute inset-0 opacity-60"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-40 -right-24 size-[32rem] rounded-full bg-teal-bright/[0.07] blur-3xl"
+        className="pointer-events-none absolute -top-40 -right-24 size-[32rem] rounded-full bg-azure-bright/[0.07] blur-3xl"
       />
 
       <div className="container-page relative py-16 md:py-20 lg:py-24">
@@ -53,7 +51,7 @@ export function PageHero({
               <li aria-hidden="true">
                 <ChevronRight className="size-3 opacity-50" />
               </li>
-              <li className="text-brass-bright">{crumb.name}</li>
+              <li className="text-gold-bright">{crumb.name}</li>
             </ol>
           </nav>
         </Reveal>
@@ -66,7 +64,7 @@ export function PageHero({
         >
           <div>
             <Reveal delay={0.06}>
-              <p className="eyebrow rule-lead text-brass-bright">{eyebrow}</p>
+              <p className="eyebrow rule-lead text-gold-bright">{eyebrow}</p>
             </Reveal>
             <Reveal delay={0.12}>
               <h1 className="mt-5 max-w-[24ch] text-[clamp(1.95rem,4.3vw,3rem)] text-field-foreground">

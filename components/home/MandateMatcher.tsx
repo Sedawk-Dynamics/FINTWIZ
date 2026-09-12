@@ -1,0 +1,321 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
+import { ArrowRight, Check, RotateCcw, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { BrandDiamond } from "@/components/brand/Motif";
+import { managers, type PortfolioManager } from "@/lib/managers";
+import { site } from "@/lib/site";
+import { cn } from "@/lib/utils";
+
+/**
+ * The mandate filter.
+ *
+ * This is the service made tangible: you set the mandate, the roster narrows,
+ * and every manager that drops out tells you which criterion it failed. That
+ * last part is the point. A distributor's shortlist is only trustworthy if the
+ * exclusions are visible, and this page promises exactly that in writing
+ * elsewhere, so it is worth demonstrating rather than asserting.
+ *
+ * COMPLIANCE
+ * ----------
+ * This is a filter over the empanelled roster, not advice and not a
+ * recommendation. It uses no performance data of any kind. The criteria are
+ * characteristics of how each strategy is constructed, taken from the
+ * manager's own stated approach, and the disclosure below says so.
+ *
+ * No manager is ever unmounted, only dimmed. Nothing here is gated on an
+ * animation completing.
+ */
+
+type AxisKey = "cap" | "construction" | "volatility";
+
+type Option<T extends string> = { value: T; label: string; hint?: string };
+
+const CAP_OPTIONS: Option<"any" | "large" | "broad">[] = [
+  { value: "any", label: "No preference" },
+  { value: "large", label: "Large cap led", hint: "Bigger, more liquid companies" },
+  { value: "broad", label: "Across market caps", hint: "Mid and small included" },
+];
+
+const CONSTRUCTION_OPTIONS: Option<"any" | "Concentrated" | "Diversified">[] = [
+  { value: "any", label: "No preference" },
+  { value: "Concentrated", label: "Concentrated", hint: "Fewer, larger positions" },
+  { value: "Diversified", label: "Diversified", hint: "Spread more widely" },
+];
+
+const VOLATILITY_OPTIONS: Option<"any" | "Balanced" | "Aggressive">[] = [
+  { value: "any", label: "No preference" },
+  { value: "Balanced", label: "Moderate", hint: "Index-like swings" },
+  { value: "Aggressive", label: "High", hint: "Deeper drawdowns possible" },
+];
+
+type Mandate = {
+  cap: (typeof CAP_OPTIONS)[number]["value"];
+  construction: (typeof CONSTRUCTION_OPTIONS)[number]["value"];
+  volatility: (typeof VOLATILITY_OPTIONS)[number]["value"];
+};
+
+const DEFAULT_MANDATE: Mandate = {
+  cap: "any",
+  construction: "any",
+  volatility: "any",
+};
+
+function capOf(manager: PortfolioManager): "large" | "broad" {
+  return manager.category === "Large Cap" ? "large" : "broad";
+}
+
+/** Returns the criterion a manager fails, or null when it fits. */
+function exclusionReason(manager: PortfolioManager, mandate: Mandate): string | null {
+  if (mandate.cap !== "any" && capOf(manager) !== mandate.cap) {
+    return mandate.cap === "large"
+      ? "Invests beyond large caps"
+      : "Stays in large caps";
+  }
+  if (mandate.construction !== "any" && manager.construction !== mandate.construction) {
+    return manager.construction === "Concentrated"
+      ? "Runs a more concentrated book"
+      : "Runs a more diversified book";
+  }
+  if (mandate.volatility !== "any" && manager.risk !== mandate.volatility) {
+    return manager.risk === "Aggressive"
+      ? "Carries a higher volatility band"
+      : "Carries a lower volatility band";
+  }
+  return null;
+}
+
+export function MandateMatcher() {
+  const [mandate, setMandate] = React.useState<Mandate>(DEFAULT_MANDATE);
+  const reduced = useReducedMotion();
+
+  const evaluated = React.useMemo(
+    () =>
+      managers.map((manager) => ({
+        manager,
+        reason: exclusionReason(manager, mandate),
+      })),
+    [mandate],
+  );
+
+  const fitting = evaluated.filter((e) => e.reason === null);
+  const isDefault =
+    mandate.cap === "any" &&
+    mandate.construction === "any" &&
+    mandate.volatility === "any";
+
+  const set = <K extends AxisKey>(key: K, value: Mandate[K]) =>
+    setMandate((m) => ({ ...m, [key]: value }));
+
+  return (
+    <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
+      {/* Controls */}
+      <div>
+        <Axis
+          label="Market cap exposure"
+          index="01"
+          options={CAP_OPTIONS}
+          value={mandate.cap}
+          onChange={(v) => set("cap", v)}
+        />
+        <Axis
+          label="Portfolio construction"
+          index="02"
+          options={CONSTRUCTION_OPTIONS}
+          value={mandate.construction}
+          onChange={(v) => set("construction", v)}
+        />
+        <Axis
+          label="Volatility you can sit through"
+          index="03"
+          options={VOLATILITY_OPTIONS}
+          value={mandate.volatility}
+          onChange={(v) => set("volatility", v)}
+        />
+
+        {!isDefault ? (
+          <button
+            type="button"
+            onClick={() => setMandate(DEFAULT_MANDATE)}
+            className={cn(
+              "mt-7 inline-flex items-center gap-2 rounded-md border border-field-border px-3 py-1.5",
+              "font-mono text-[0.7rem] tracking-[0.08em] text-field-muted uppercase",
+              "transition-colors duration-200 hover:border-field-foreground hover:text-field-foreground",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            )}
+          >
+            <RotateCcw aria-hidden="true" className="size-3" />
+            Reset mandate
+          </button>
+        ) : null}
+      </div>
+
+      {/* Result */}
+      <div>
+        <div className="flex items-baseline justify-between gap-4 border-b border-field-border pb-4">
+          <p
+            aria-live="polite"
+            className="font-mono text-[0.72rem] tracking-[0.1em] text-field-muted uppercase tnum"
+          >
+            {fitting.length} of {managers.length} empanelled{" "}
+            {fitting.length === 1 ? "manager fits" : "managers fit"}
+          </p>
+          <BrandDiamond size={11} className="text-gold-bright/60" />
+        </div>
+
+        <ul className="mt-2">
+          {evaluated.map(({ manager, reason }) => (
+            <motion.li
+              key={manager.id}
+              data-reveal=""
+              animate={
+                reduced ? undefined : { opacity: reason ? 0.42 : 1 }
+              }
+              transition={{ duration: reduced ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="border-b border-field-border last:border-b-0"
+            >
+              <div className="flex items-start gap-4 py-4">
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-sm border",
+                    reason
+                      ? "border-field-border text-field-muted"
+                      : "border-azure-bright/60 bg-azure-bright/10 text-azure-bright",
+                  )}
+                >
+                  {reason ? (
+                    <X className="size-3" />
+                  ) : (
+                    <Check className="size-3" />
+                  )}
+                </span>
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <p className="text-[0.95rem] font-medium text-field-foreground">
+                      {manager.house}
+                    </p>
+                    <p className="font-mono text-[0.68rem] tracking-[0.06em] text-field-muted tnum">
+                      {manager.serial}
+                    </p>
+                  </div>
+                  <p className="mt-0.5 text-[0.82rem] text-field-muted">
+                    {manager.strategy}
+                  </p>
+
+                  <p
+                    className={cn(
+                      "mt-2 text-[0.78rem] leading-snug",
+                      reason ? "text-field-muted" : "text-azure-bright",
+                    )}
+                  >
+                    {reason ? `Excluded: ${reason.toLowerCase()}` : "Fits this mandate"}
+                  </p>
+                </div>
+
+                <span className="hidden shrink-0 font-mono text-[0.66rem] tracking-[0.08em] text-field-muted uppercase sm:block">
+                  {manager.category}
+                </span>
+              </div>
+            </motion.li>
+          ))}
+        </ul>
+
+        {fitting.length === 0 ? (
+          <div className="mt-6 rounded-md border border-gold/40 bg-white/[0.03] p-5">
+            <p className="text-[0.875rem] leading-[1.7] text-field-foreground">
+              Nothing on the roster fits that combination.
+            </p>
+            <p className="mt-2 text-[0.82rem] leading-[1.7] text-field-muted">
+              That is a useful answer rather than a dead end. It usually means
+              either the roster needs widening, or PMS is not the right
+              instrument for this mandate. Either way we would tell you so
+              rather than bend a manager to fit.
+            </p>
+          </div>
+        ) : null}
+
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Button asChild variant="field">
+            <Link href="/contact">
+              Get this shortlist properly
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </Button>
+          <Button asChild variant="fieldOutline">
+            <Link href="/portfolio-managers">See full detail</Link>
+          </Button>
+        </div>
+
+        <p className="mt-7 border-t border-field-border pt-5 text-[0.75rem] leading-[1.7] text-field-muted">
+          This filters our empanelled roster against criteria you choose. It is
+          not investment advice, not a recommendation, and it uses no
+          performance data. Construction and volatility bands describe how each
+          strategy is built, drawn from the manager&apos;s own stated approach.
+          A real shortlist from {site.brand} comes with the written reasoning
+          for every inclusion and every exclusion.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function Axis<T extends string>({
+  label,
+  index,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  index: string;
+  options: Option<T>[];
+  value: T;
+  onChange: (value: T) => void;
+}) {
+  return (
+    <fieldset className="border-t border-field-border pt-6 first:border-t-0 first:pt-0 [&+fieldset]:mt-8">
+      <legend className="sr-only">{label}</legend>
+      <div className="flex items-baseline gap-3">
+        <span className="font-mono text-[0.68rem] tracking-[0.14em] text-gold-bright tnum">
+          {index}
+        </span>
+        <p className="text-[0.95rem] font-medium text-field-foreground">
+          {label}
+        </p>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {options.map((option) => {
+          const selected = option.value === value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => onChange(option.value)}
+              aria-pressed={selected}
+              className={cn(
+                "group rounded-md border px-3.5 py-2 text-left transition-colors duration-200",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                selected
+                  ? "border-azure-bright bg-azure-bright/12 text-field-foreground"
+                  : "border-field-border text-field-muted hover:border-field-foreground/50 hover:text-field-foreground",
+              )}
+            >
+              <span className="block text-[0.85rem]">{option.label}</span>
+              {option.hint ? (
+                <span className="mt-0.5 block text-[0.7rem] opacity-70">
+                  {option.hint}
+                </span>
+              ) : null}
+            </button>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}

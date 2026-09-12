@@ -42,7 +42,7 @@ export default function FeesAndDisclosuresPage() {
         crumb={{ name: "Fees & Disclosures", path: "/fees-and-disclosures" }}
         aside={
           <div className="rounded-md border border-field-border bg-white/[0.03] p-6">
-            <p className="eyebrow text-brass-bright">In one line</p>
+            <p className="eyebrow text-gold-bright">In one line</p>
             <p className="mt-4 text-[0.95rem] leading-[1.72] text-field-foreground">
               You pay the portfolio manager. The portfolio manager pays us. You
               are never billed by {site.brand} for the distribution service.
@@ -104,10 +104,10 @@ export default function FeesAndDisclosuresPage() {
             </div>
 
             <Reveal delay={0.12}>
-              <div className="rounded-md border border-brass/35 bg-card p-7 md:p-8">
+              <div className="rounded-md border border-gold/35 bg-card p-7 md:p-8">
                 <span
                   aria-hidden="true"
-                  className="inline-flex size-10 items-center justify-center rounded-md border border-brass/45 text-brass-deep"
+                  className="inline-flex size-10 items-center justify-center rounded-md border border-gold/45 text-gold-deep"
                 >
                   <Scale className="size-[1.1rem]" />
                 </span>
@@ -121,7 +121,7 @@ export default function FeesAndDisclosuresPage() {
                 <div className="mt-6 flex items-start gap-3 rounded-md border border-border bg-muted/70 p-4">
                   <AlertTriangle
                     aria-hidden="true"
-                    className="mt-0.5 size-4 shrink-0 text-brass-deep"
+                    className="mt-0.5 size-4 shrink-0 text-gold-deep"
                   />
                   <p className="text-[0.8125rem] leading-[1.65] text-slate">
                     Until this table is published, ask us for the commission
@@ -183,9 +183,9 @@ export default function FeesAndDisclosuresPage() {
                   id={section.id}
                   className="border-b border-field-border"
                 >
-                  <AccordionTrigger className="text-field-foreground hover:text-brass-bright">
+                  <AccordionTrigger className="text-field-foreground hover:text-gold-bright">
                     <span className="flex items-baseline gap-4">
-                      <span className="font-mono text-[0.72rem] text-brass-bright tnum">
+                      <span className="font-mono text-[0.72rem] text-gold-bright tnum">
                         {section.number}
                       </span>
                       <span>{section.title}</span>
@@ -210,7 +210,7 @@ export default function FeesAndDisclosuresPage() {
 
           <Reveal className="mt-10">
             <div className="rounded-md border border-field-border bg-white/[0.025] p-6 md:p-7">
-              <p className="eyebrow text-brass-bright">Standard risk warning</p>
+              <p className="eyebrow text-gold-bright">Standard risk warning</p>
               <p className="mt-4 max-w-[88ch] font-mono text-[0.8rem] leading-[1.8] text-field-muted">
                 {standardRiskLine}
               </p>

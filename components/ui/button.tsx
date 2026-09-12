@@ -33,7 +33,7 @@ const buttonVariants = cva(
          * this pairing cannot invert into an unreadable state.
          */
         field:
-          "bg-field-foreground text-ink-deep hover:bg-brass-bright active:translate-y-px",
+          "bg-field-foreground text-ink-deep hover:bg-gold-bright active:translate-y-px",
         fieldOutline:
           "border border-field-border bg-transparent text-field-foreground hover:border-field-foreground hover:bg-white/[0.07] active:translate-y-px",
       },

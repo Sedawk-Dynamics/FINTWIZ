@@ -24,7 +24,7 @@ export default function TermsPage() {
 
       <LegalDocument sections={termsSections}>
         <section id="image-credits" className="mt-10 border-t border-border pt-10">
-          <p className="font-mono text-[0.7rem] tracking-[0.14em] text-brass-deep uppercase">
+          <p className="font-mono text-[0.7rem] tracking-[0.14em] text-gold-deep uppercase">
             Appendix
           </p>
           <h2 className="mt-3 text-[1.4rem] text-ink md:text-[1.55rem]">
@@ -56,7 +56,7 @@ export default function TermsPage() {
                     href={credit.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link-underline inline-flex items-center gap-1 text-[0.78rem] text-teal-bright"
+                    className="link-underline inline-flex items-center gap-1 text-[0.78rem] text-azure-bright"
                   >
                     Source
                     <ArrowUpRight aria-hidden="true" className="size-3" />
@@ -66,7 +66,7 @@ export default function TermsPage() {
                       href={credit.licenceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="link-underline inline-flex items-center gap-1 text-[0.78rem] text-teal-bright"
+                      className="link-underline inline-flex items-center gap-1 text-[0.78rem] text-azure-bright"
                     >
                       Licence terms
                       <ArrowUpRight aria-hidden="true" className="size-3" />

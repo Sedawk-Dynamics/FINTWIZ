@@ -9,6 +9,7 @@ export function WhyUs() {
       <div className="container-page section-y">
         <SectionHeading
           eyebrow="Why us"
+          index="05"
           title="Built to be checked, not just believed."
           lead="Everything below is something you can independently verify, which is the only kind of claim worth putting on a regulated financial website."
         />
@@ -24,7 +25,7 @@ export function WhyUs() {
               >
                 <span
                   aria-hidden="true"
-                  className="inline-flex size-10 items-center justify-center rounded-md border border-border text-teal-bright transition-colors duration-300 group-hover:border-teal-bright"
+                  className="inline-flex size-10 items-center justify-center rounded-md border border-border text-azure-bright transition-colors duration-300 group-hover:border-azure-bright"
                 >
                   <Icon className="size-[1.1rem]" />
                 </span>

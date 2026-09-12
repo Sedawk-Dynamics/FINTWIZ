@@ -4,7 +4,6 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { TrustStrip } from "@/components/layout/TrustStrip";
-import { themeInitScript } from "@/components/layout/ThemeToggle";
 import { SITE_URL, organizationJsonLd, jsonLdScript } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -78,8 +77,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f2ed" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f1216" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f3ee" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d1117" },
   ],
 };
 
@@ -94,24 +93,23 @@ export default function RootLayout({
       className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable} h-full`}
     >
       <head>
-        <script
-          // Applies the stored theme before first paint to avoid a flash.
-          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        {/*
+          Motion server-renders its `initial` values as inline styles, so
+          without JavaScript every revealed block would stay at opacity 0 and
+          the site would read as blank. This restores them. Content on a
+          regulated financial site must not depend on the animation layer.
+
+          The stylesheet is passed as a raw string rather than as a JSX <style>
+          child. When scripting is enabled the browser does not parse <noscript>
+          contents into DOM nodes at all, so a JSX child makes the client tree
+          disagree with the server tree and hydration fails.
+        */}
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html:
+              "<style>[data-reveal]{opacity:1!important;transform:none!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}</style>",
+          }}
         />
-        <noscript>
-          {/*
-            Motion server-renders its `initial` values as inline styles, so
-            without JavaScript every revealed block would stay at opacity 0 and
-            the site would read as blank. This restores them. Content on a
-            regulated financial site must not depend on the animation layer.
-          */}
-          <style
-            dangerouslySetInnerHTML={{
-              __html:
-                "[data-reveal]{opacity:1!important;transform:none!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}",
-            }}
-          />
-        </noscript>
       </head>
       <body className="flex min-h-full flex-col">
         <a

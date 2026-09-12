@@ -48,6 +48,25 @@ export const photography = {
     sourceUrl:
       "https://commons.wikimedia.org/wiki/File:Morning_view_from_Nariman_Point.jpg",
   },
+  regulator: {
+    src: "/media/sebi-bhavan.jpg",
+    alt: "SEBI Bhavan, the headquarters of the Securities and Exchange Board of India, Mumbai",
+    work: "SEBI Bhavan.jpg",
+    author: "Jimmy vikas",
+    licence: "CC BY-SA 3.0",
+    licenceUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:SEBI_Bhavan.jpg",
+  },
+  centralBank: {
+    src: "/media/rbi-mumbai.jpg",
+    alt: "The Reserve Bank of India building on Mint Road, Mumbai",
+    work: "Mumbai, reserve bank of india 01.jpg",
+    author: "Sailko",
+    licence: "CC BY 3.0",
+    licenceUrl: "https://creativecommons.org/licenses/by/3.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Mumbai,_reserve_bank_of_india_01.jpg",
+  },
   exchange: {
     src: "/media/bse-phiroze-jeejeebhoy-towers.jpg",
     alt: "Phiroze Jeejeebhoy Towers, the Bombay Stock Exchange building, Mumbai",

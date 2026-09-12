@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "check:compliance": "node scripts/check-compliance.mjs",
-    "build:media": "node scripts/build-media.mjs"
+    "build:media": "node scripts/build-media.mjs",
+    "build:brand": "node scripts/build-brand.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

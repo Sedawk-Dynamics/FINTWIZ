@@ -18,7 +18,7 @@ export default function GlobalError({
   return (
     <section className="bg-field text-field-foreground">
       <div className="container-page flex min-h-[62vh] flex-col justify-center py-24">
-        <p className="font-mono text-[0.72rem] tracking-[0.18em] text-brass-bright uppercase">
+        <p className="font-mono text-[0.72rem] tracking-[0.18em] text-gold-bright uppercase">
           Something went wrong
         </p>
         <h1 className="mt-6 max-w-[22ch] text-[clamp(2rem,4.5vw,3rem)] text-field-foreground">

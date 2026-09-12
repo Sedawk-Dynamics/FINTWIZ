@@ -34,14 +34,14 @@ function StructureColumn({
   column: Column;
   icon: typeof Layers;
 }) {
-  const isTeal = column.tone === "teal";
+  const isTeal = column.tone === "azure";
 
   return (
     <RevealItem
       as="article"
       className={cn(
         "flex h-full flex-col rounded-md border p-6 md:p-8",
-        isTeal ? "border-teal-bright/45 bg-card" : "border-border bg-secondary",
+        isTeal ? "border-azure-bright/45 bg-card" : "border-border bg-secondary",
       )}
     >
       <header className="flex items-center gap-3">
@@ -50,7 +50,7 @@ function StructureColumn({
           className={cn(
             "inline-flex size-9 items-center justify-center rounded-md border",
             isTeal
-              ? "border-teal-bright/50 text-teal-bright"
+              ? "border-azure-bright/50 text-azure-bright"
               : "border-border text-slate",
           )}
         >
@@ -74,7 +74,7 @@ function StructureColumn({
                 className={cn(
                   "mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-sm border font-mono text-[0.66rem] tnum",
                   isTeal
-                    ? "border-teal-bright/50 text-teal-bright"
+                    ? "border-azure-bright/50 text-azure-bright"
                     : "border-border text-slate",
                 )}
               >
@@ -98,7 +98,7 @@ function StructureColumn({
                 <ArrowDown
                   className={cn(
                     "size-3 translate-x-[-0.4rem]",
-                    isTeal ? "text-teal-bright/70" : "text-slate-light",
+                    isTeal ? "text-azure-bright/70" : "text-slate-light",
                   )}
                 />
               </div>
@@ -111,7 +111,7 @@ function StructureColumn({
         className={cn(
           "mt-auto border-t pt-5 text-[0.8rem] leading-[1.65]",
           isTeal
-            ? "border-teal-bright/30 text-slate"
+            ? "border-azure-bright/30 text-slate"
             : "border-border text-slate",
         )}
       >

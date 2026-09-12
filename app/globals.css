@@ -1,44 +1,65 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 /* ---------------------------------------------------------------------------
    Fintwiz Wealth design tokens
 
-   Palette is derived from the client's draft direction: a deep navy ink, a
-   brass accent and a forest teal on warm paper. Values here are the deepened
-   variants that actually pass WCAG AA at the sizes they are used.
+   Sampled from the supplied logo: the mark is an azure gradient (#28A6E4 to
+   #68D7F8) and the wordmark a gold-to-orange gradient (#FED30C to #FEAF36).
+   Those two literal values live in `--azure-logo` and `--gold-logo` and are
+   used only where contrast does not apply (decorative strokes, the motif).
 
-   Every colour in the site must come from a token in this file. Nothing is
-   hardcoded in a component, which is what keeps the dark theme honest.
+   Everything text-bearing uses the deepened variants below, which pass WCAG AA
+   against the surface they actually sit on.
+
+   THEMING
+   -------
+   Every token is declared once with `light-dark()`, and the theme is chosen by
+   the `color-scheme` property alone. That means:
+
+     - The default follows the operating system, resolved by CSS before the
+       first paint, with no JavaScript and therefore no flash.
+     - An explicit choice is one attribute on <html>, set by the toggle.
+
+   There is deliberately no theme bootstrap script. Rendering a <script> from a
+   React component breaks hydration in React 19, and the whole mechanism is
+   unnecessary once the tokens resolve in CSS.
+
+   Every colour in the site must come from a token here. Nothing is hardcoded
+   in a component, which is what keeps the dark theme honest.
    --------------------------------------------------------------------------- */
 
 :root {
-  color-scheme: light;
+  /* Follow the system unless overridden below. */
+  color-scheme: light dark;
 
   /* Core surfaces */
-  --paper: #ffffff;
-  --parchment: #f4f2ed;
-  --parchment-deep: #ebe7de;
+  --paper: light-dark(#ffffff, #141920);
+  --parchment: light-dark(#f5f3ee, #0d1117);
+  --parchment-deep: light-dark(#eae5db, #1a2028);
 
-  /* Ink */
-  --ink: #0e1b2b;
-  --ink-deep: #081320;
-  --ink-soft: #1b2b3f;
+  /* Ink. Pulled bluer than the client draft so the logo azure sits in it. */
+  --ink: light-dark(#0b1a2e, #f2f0ea);
+  --ink-deep: light-dark(#06111f, #080c12);
+  --ink-soft: light-dark(#16283e, #d6d3cb);
 
-  /* Accents */
-  --brass: #8c7a54;
-  --brass-bright: #b39b68;
-  --brass-deep: #6b5c3d;
-  --teal: #1b3a34;
-  --teal-bright: #2f7d6c;
-  --teal-soft: #e4efeb;
+  /* Literal logo colours. Decorative use only, identical in both themes. */
+  --azure-logo: #28a6e4;
+  --gold-logo: #fec21a;
 
-  --slate: #56606c;
-  --slate-light: #7b8593;
+  /* Accents, contrast-corrected for the surface they sit on */
+  --gold: light-dark(#b8860f, #e0b64a);
+  --gold-bright: light-dark(#fec21a, #fecb3a);
+  --gold-deep: light-dark(#8a6108, #d4a83c);
+  --azure: light-dark(#0a5f92, #8fd4f5);
+  --azure-bright: light-dark(#1279b8, #5cc4f0);
+  --azure-soft: light-dark(#e8f4fb, #0d2a3d);
 
-  /* Semantic (shadcn-compatible) */
+  --slate: light-dark(#55606e, #99a2ad);
+  --slate-light: light-dark(#7a8494, #78828e);
+
+  /* Semantic (shadcn-compatible). These compose from the tokens above, which
+     already invert, so they need no light-dark() of their own. */
   --background: var(--parchment);
   --foreground: var(--ink);
   --card: var(--paper);
@@ -46,103 +67,57 @@
   --popover: var(--paper);
   --popover-foreground: var(--ink);
   --primary: var(--ink);
-  --primary-foreground: #ffffff;
+  --primary-foreground: light-dark(#ffffff, #080c12);
   --secondary: var(--parchment-deep);
   --secondary-foreground: var(--ink);
-  --muted: #f0ede6;
+  --muted: light-dark(#f0ede6, #1a2028);
   --muted-foreground: var(--slate);
-  --accent: var(--teal-soft);
-  --accent-foreground: var(--teal);
-  --destructive: #a8321f;
+  --accent: var(--azure-soft);
+  --accent-foreground: light-dark(#0a5f92, #a9d9ed);
+  --destructive: light-dark(#a8321f, #e06a55);
 
-  --border: rgb(14 27 43 / 0.12);
-  --border-strong: rgb(14 27 43 / 0.22);
-  --input: rgb(14 27 43 / 0.2);
-  --ring: var(--teal-bright);
+  --border: light-dark(rgb(11 26 46 / 0.12), rgb(242 240 234 / 0.13));
+  --border-strong: light-dark(rgb(11 26 46 / 0.22), rgb(242 240 234 / 0.24));
+  --input: light-dark(rgb(11 26 46 / 0.2), rgb(242 240 234 / 0.22));
+  --ring: var(--azure-bright);
 
   /* House rule: interactive elements never exceed this radius.
      No pill-shaped buttons anywhere on this site. */
   --radius: 3px;
 
-  /* Field = a full-bleed dark band (hero, footer, feature sections) */
-  --field: var(--ink-deep);
+  /* Field = a full-bleed dark band (hero, footer, feature sections).
+     Dark in BOTH themes, which is why its foreground tokens never invert. */
+  --field: light-dark(#06111f, #05090f);
   --field-foreground: #f3f1ec;
   --field-muted: rgb(243 241 236 / 0.62);
-  --field-border: rgb(243 241 236 / 0.14);
+  --field-border: light-dark(rgb(243 241 236 / 0.14), rgb(243 241 236 / 0.12));
 
-  --shadow-card: 0 1px 2px rgb(14 27 43 / 0.04), 0 12px 28px -18px rgb(14 27 43 / 0.28);
-  --shadow-lift: 0 2px 4px rgb(14 27 43 / 0.05), 0 22px 44px -24px rgb(14 27 43 / 0.34);
+  --shadow-card:
+    0 1px 2px light-dark(rgb(11 26 46 / 0.04), rgb(0 0 0 / 0.4)),
+    0 12px 28px -18px light-dark(rgb(11 26 46 / 0.28), rgb(0 0 0 / 0.7));
+  --shadow-lift:
+    0 2px 4px light-dark(rgb(11 26 46 / 0.05), rgb(0 0 0 / 0.45)),
+    0 22px 44px -24px light-dark(rgb(11 26 46 / 0.34), rgb(0 0 0 / 0.75));
 
-  /* Button surfaces are declared explicitly per theme rather than composed
-     from --ink, because --ink inverts between themes and a composed rule
-     silently produces white-on-white in dark mode. */
-  --btn-primary-bg: #0e1b2b;
-  --btn-primary-fg: #ffffff;
-  --btn-primary-bg-hover: #1b3a34;
+  /* Button surfaces are declared explicitly rather than composed from --ink,
+     because --ink inverts and a composed rule silently produces white on
+     white in dark mode. */
+  --btn-primary-bg: light-dark(#0b1a2e, #f2f0ea);
+  --btn-primary-fg: light-dark(#ffffff, #080c12);
+  --btn-primary-bg-hover: light-dark(#0a5f92, #fecb3a);
 
-  --btn-accent-bg: #2f7d6c;
-  --btn-accent-fg: #ffffff;
-  --btn-accent-bg-hover: #1b3a34;
+  --btn-accent-bg: light-dark(#1279b8, #5cc4f0);
+  --btn-accent-fg: light-dark(#ffffff, #04121c);
+  --btn-accent-bg-hover: light-dark(#0a5f92, #8fd4f5);
 }
 
-.dark {
+/* An explicit choice from the toggle. One property flips every token above. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
   color-scheme: dark;
-
-  --paper: #161a20;
-  --parchment: #0f1216;
-  --parchment-deep: #1b1f26;
-
-  --ink: #f2f0ea;
-  --ink-deep: #0b0e12;
-  --ink-soft: #d8d5cd;
-
-  --brass: #c9a968;
-  --brass-bright: #dcc189;
-  --brass-deep: #b08f4f;
-  --teal: #7fc3b3;
-  --teal-bright: #4fa394;
-  --teal-soft: #16302b;
-
-  --slate: #9ca3ac;
-  --slate-light: #7d858f;
-
-  --background: var(--parchment);
-  --foreground: var(--ink);
-  --card: var(--paper);
-  --card-foreground: var(--ink);
-  --popover: var(--paper);
-  --popover-foreground: var(--ink);
-  --primary: #f2f0ea;
-  --primary-foreground: #0b0e12;
-  --secondary: var(--parchment-deep);
-  --secondary-foreground: var(--ink);
-  --muted: #1b1f26;
-  --muted-foreground: var(--slate);
-  --accent: var(--teal-soft);
-  --accent-foreground: #a9d9cd;
-  --destructive: #e06a55;
-
-  --border: rgb(242 240 234 / 0.13);
-  --border-strong: rgb(242 240 234 / 0.24);
-  --input: rgb(242 240 234 / 0.22);
-  --ring: var(--teal-bright);
-
-  --field: #080b0f;
-  --field-foreground: #f3f1ec;
-  --field-muted: rgb(243 241 236 / 0.6);
-  --field-border: rgb(243 241 236 / 0.12);
-
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 28px -18px rgb(0 0 0 / 0.7);
-  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.45), 0 22px 44px -24px rgb(0 0 0 / 0.75);
-
-  /* Inverted: a light button face with dark type reads as primary on a dark page. */
-  --btn-primary-bg: #f2f0ea;
-  --btn-primary-fg: #0b0e12;
-  --btn-primary-bg-hover: #dcc189;
-
-  --btn-accent-bg: #4fa394;
-  --btn-accent-fg: #04100d;
-  --btn-accent-bg-hover: #7fc3b3;
 }
 
 @theme inline {
@@ -172,12 +147,14 @@
   --color-ink: var(--ink);
   --color-ink-deep: var(--ink-deep);
   --color-ink-soft: var(--ink-soft);
-  --color-brass: var(--brass);
-  --color-brass-bright: var(--brass-bright);
-  --color-brass-deep: var(--brass-deep);
-  --color-teal: var(--teal);
-  --color-teal-bright: var(--teal-bright);
-  --color-teal-soft: var(--teal-soft);
+  --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
+  --color-gold-deep: var(--gold-deep);
+  --color-azure: var(--azure);
+  --color-azure-bright: var(--azure-bright);
+  --color-azure-soft: var(--azure-soft);
+  --color-azure-logo: var(--azure-logo);
+  --color-gold-logo: var(--gold-logo);
   --color-slate: var(--slate);
   --color-slate-light: var(--slate-light);
 
@@ -312,7 +289,7 @@
   }
 
   ::selection {
-    background-color: var(--teal-bright);
+    background-color: var(--azure-bright);
     color: #ffffff;
   }
 
@@ -384,6 +361,26 @@
   .link-underline:hover,
   .link-underline:focus-visible {
     background-size: 100% 1px;
+  }
+
+  /* The brand rule: the mark's azure into the wordmark's gold, drawn as a
+     hairline across the top of every full-bleed dark band. It is the cheapest
+     way to make an otherwise dark section unmistakably this brand. */
+  .brand-rule::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 2px;
+    z-index: 1;
+    background-image: linear-gradient(
+      to right,
+      var(--azure-logo) 0%,
+      var(--azure-logo) 22%,
+      var(--gold-logo) 62%,
+      var(--gold-logo) 100%
+    );
+    opacity: 0.85;
   }
 
   /* Fine grid used behind dark fields. Pure CSS, no image request. */

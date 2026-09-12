@@ -112,7 +112,7 @@ export default function HowItWorksPage() {
                     >
                       <span
                         aria-hidden="true"
-                        className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-md border border-border text-brass-deep"
+                        className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-md border border-border text-gold-deep"
                       >
                         <Icon className="size-4" />
                       </span>

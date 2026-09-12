@@ -25,7 +25,7 @@ export function TrustStrip() {
             <li key={text} className="flex items-center gap-2">
               <Icon
                 aria-hidden="true"
-                className="size-3.5 shrink-0 text-brass-bright"
+                className="size-3.5 shrink-0 text-gold-bright"
               />
               <span
                 className={

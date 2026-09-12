@@ -14,6 +14,7 @@ export function ManagerPreview() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHeading
             eyebrow="Empanelled managers"
+            index="04"
             title="Their strategies, their disclosures, their numbers."
             lead="Every entry links to that manager's own SEBI-format disclosure document. Inclusion here is not a recommendation, and the order is not a ranking."
             maxWidth="max-w-[42rem]"

@@ -43,7 +43,7 @@ function AccordionTrigger({
         className={cn(
           "group flex flex-1 items-start justify-between gap-6 py-6 text-left",
           "font-display text-[1.0625rem] leading-snug font-medium text-ink md:text-[1.15rem]",
-          "transition-colors duration-200 hover:text-teal-bright",
+          "transition-colors duration-200 hover:text-azure-bright",
           "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
           className,
         )}
@@ -53,7 +53,7 @@ function AccordionTrigger({
         <Plus
           aria-hidden="true"
           className={cn(
-            "mt-1 size-[1.15rem] shrink-0 text-brass transition-transform duration-300 ease-out",
+            "mt-1 size-[1.15rem] shrink-0 text-gold transition-transform duration-300 ease-out",
             "group-data-[state=open]:rotate-45",
           )}
         />

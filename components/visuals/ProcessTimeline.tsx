@@ -44,7 +44,7 @@ export function ProcessTimeline() {
         <motion.span
           aria-hidden="true"
           style={{ scaleY, transformOrigin: "top" }}
-          className="absolute top-2 bottom-2 left-[1.1875rem] w-px bg-teal-bright md:left-[1.6875rem]"
+          className="absolute top-2 bottom-2 left-[1.1875rem] w-px bg-azure-bright md:left-[1.6875rem]"
         />
       ) : null}
 
@@ -80,7 +80,7 @@ function Step({
             <motion.span
               aria-hidden="true"
               style={{ opacity: markerOpacity }}
-              className="absolute inset-0 rounded-md border border-teal-bright bg-teal-soft"
+              className="absolute inset-0 rounded-md border border-azure-bright bg-azure-soft"
             />
           ) : null}
           <span className="relative text-ink">{step.step}</span>
@@ -100,7 +100,7 @@ function Step({
           {step.body}
         </p>
         {index === 1 ? (
-          <p className="mt-4 max-w-[58ch] border-l-2 border-brass/50 pl-4 text-[0.85rem] leading-[1.7] text-slate-light">
+          <p className="mt-4 max-w-[58ch] border-l-2 border-gold/50 pl-4 text-[0.85rem] leading-[1.7] text-slate-light">
             The written reasoning for every exclusion is part of the shortlist,
             not something you have to ask for.
           </p>

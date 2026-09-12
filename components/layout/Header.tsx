@@ -67,18 +67,20 @@ export function Header() {
           className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
           aria-label={`${site.brand}, home`}
         >
-          <Logo />
+          <Logo priority />
         </Link>
 
         <nav aria-label="Primary" className="hidden lg:block">
-          <ul className="flex items-center gap-8">
+          {/* The supplied lockup is wide, so the nav needs a tighter gap at the
+              lg breakpoint to stay on one line. */}
+          <ul className="flex items-center gap-5 xl:gap-8">
             {site.nav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "link-underline py-1 text-[0.875rem] transition-colors duration-200",
+                    "link-underline py-1 text-[0.875rem] whitespace-nowrap transition-colors duration-200",
                     isActive(item.href)
                       ? "text-ink [background-size:100%_1px]"
                       : "text-slate hover:text-ink",
@@ -148,7 +150,7 @@ export function Header() {
                       {isActive(item.href) ? (
                         <span
                           aria-hidden="true"
-                          className="h-1 w-1 bg-brass"
+                          className="h-1 w-1 bg-gold"
                         />
                       ) : null}
                     </Link>

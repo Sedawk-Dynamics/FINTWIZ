@@ -30,6 +30,12 @@ export type StrategyCategory =
 export type RiskBand = "Conservative" | "Balanced" | "Aggressive";
 
 /**
+ * How the manager constructs the book, taken from their own stated approach
+ * rather than inferred from holdings. Used by the mandate filter.
+ */
+export type Construction = "Concentrated" | "Diversified";
+
+/**
  * A figure the portfolio manager has themselves disclosed.
  * Every field is required on purpose: no undated, unsourced number can be
  * added to this site without the compiler objecting.
@@ -50,6 +56,7 @@ export type PortfolioManager = {
   strategy: string;
   category: StrategyCategory;
   risk: RiskBand;
+  construction: Construction;
   /** One line, factual, drawn from the manager's own stated approach. */
   summary: string;
   /** Two or three characteristics of the mandate. Never a recommendation. */
@@ -72,6 +79,7 @@ export const managers: readonly PortfolioManager[] = [
     strategy: "Consistent Compounders",
     category: "Large Cap",
     risk: "Balanced",
+    construction: "Concentrated",
     summary:
       "A concentrated portfolio of large, cash-generative franchises held for long periods, selected on balance-sheet quality and consistency of earnings.",
     attributes: ["Concentrated book", "Quality and compounding bias", "Long holding periods"],
@@ -88,6 +96,7 @@ export const managers: readonly PortfolioManager[] = [
     strategy: "Multi-Strategy Portfolio",
     category: "Multi Cap",
     risk: "Balanced",
+    construction: "Diversified",
     summary:
       "A diversified, goal-linked allocation spread across market capitalisations, rebalanced against a stated target allocation rather than a single style.",
     attributes: ["Diversified across caps", "Goal-linked allocation", "Rules-based rebalancing"],
@@ -103,6 +112,7 @@ export const managers: readonly PortfolioManager[] = [
     strategy: "All Cap Approach",
     category: "All Cap",
     risk: "Aggressive",
+    construction: "Diversified",
     summary:
       "A bottom-up, valuation-led book that moves across the full market-cap range, built around earnings visibility and the price paid for it.",
     attributes: ["Bottom-up selection", "Valuation discipline", "Full cap range"],
@@ -119,6 +129,7 @@ export const managers: readonly PortfolioManager[] = [
     strategy: "Select Stock",
     category: "Multi Cap",
     risk: "Aggressive",
+    construction: "Concentrated",
     summary:
       "A high-conviction, concentrated portfolio built stock by stock, weighted toward businesses the manager expects to grow earnings faster than the broad market.",
     attributes: ["High conviction", "Concentrated positions", "Growth-led selection"],

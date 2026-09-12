@@ -45,7 +45,7 @@ export function FeeFlow({ className }: { className?: string }) {
 
         <defs>
           <marker
-            id="fee-arrow-teal"
+            id="fee-arrow-azure"
             viewBox="0 0 10 10"
             refX="8"
             refY="5"
@@ -53,10 +53,10 @@ export function FeeFlow({ className }: { className?: string }) {
             markerHeight="6"
             orient="auto-start-reverse"
           >
-            <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--teal-bright)" />
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--azure-bright)" />
           </marker>
           <marker
-            id="fee-arrow-brass"
+            id="fee-arrow-gold"
             viewBox="0 0 10 10"
             refX="8"
             refY="5"
@@ -64,7 +64,7 @@ export function FeeFlow({ className }: { className?: string }) {
             markerHeight="6"
             orient="auto-start-reverse"
           >
-            <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--brass)" />
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--gold)" />
           </marker>
         </defs>
 
@@ -102,16 +102,16 @@ export function FeeFlow({ className }: { className?: string }) {
           data-reveal=""
           d="M 174,155 L 296,155"
           fill="none"
-          stroke="var(--teal-bright)"
+          stroke="var(--azure-bright)"
           strokeWidth="2"
-          markerEnd="url(#fee-arrow-teal)"
+          markerEnd="url(#fee-arrow-azure)"
           {...draw(0.1)}
         />
         <text
           x={235}
           y={180}
           textAnchor="middle"
-          className="fill-teal-bright font-mono text-[9.5px] tracking-[0.08em] uppercase"
+          className="fill-azure-bright font-mono text-[9.5px] tracking-[0.08em] uppercase"
         >
           Fees
         </text>
@@ -121,16 +121,16 @@ export function FeeFlow({ className }: { className?: string }) {
           data-reveal=""
           d="M 474,155 L 586,155"
           fill="none"
-          stroke="var(--brass)"
+          stroke="var(--gold)"
           strokeWidth="2"
-          markerEnd="url(#fee-arrow-brass)"
+          markerEnd="url(#fee-arrow-gold)"
           {...draw(0.3)}
         />
         <text
           x={530}
           y={180}
           textAnchor="middle"
-          className="fill-brass-deep font-mono text-[9.5px] tracking-[0.08em] uppercase"
+          className="fill-gold-deep font-mono text-[9.5px] tracking-[0.08em] uppercase"
         >
           Commission
         </text>
@@ -142,7 +142,7 @@ export function FeeFlow({ className }: { className?: string }) {
           width={178}
           title="Portfolio Manager"
           sub="Manages your account"
-          tone="teal"
+          tone="azure"
         />
         <FlowNode
           x={586}
@@ -150,7 +150,7 @@ export function FeeFlow({ className }: { className?: string }) {
           width={154}
           title={site.brand}
           sub="Distributor"
-          tone="brass"
+          tone="gold"
         />
       </svg>
 
@@ -177,13 +177,13 @@ function FlowNode({
   width: number;
   title: string;
   sub: string;
-  tone: "neutral" | "brass" | "teal";
+  tone: "neutral" | "gold" | "azure";
 }) {
   const stroke =
-    tone === "brass"
-      ? "var(--brass)"
-      : tone === "teal"
-        ? "var(--teal-bright)"
+    tone === "gold"
+      ? "var(--gold)"
+      : tone === "azure"
+        ? "var(--azure-bright)"
         : "var(--border-strong)";
 
   return (

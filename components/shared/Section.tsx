@@ -3,30 +3,59 @@ import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
 
+/**
+ * Section label.
+ *
+ * With an `index` it becomes a chapter marker: a numeral in the brand gold, a
+ * short rule, then the label. Used down the home page so the site reads as a
+ * document with chapters rather than a stack of interchangeable blocks.
+ */
 export function Eyebrow({
   children,
   className,
   onField = false,
+  index,
 }: {
   children: React.ReactNode;
   className?: string;
   onField?: boolean;
+  index?: string;
 }) {
+  const tone = onField ? "text-gold-bright" : "text-gold-deep";
+
+  if (index) {
+    return (
+      <p className={cn("eyebrow flex items-center gap-3", tone, className)}>
+        <span
+          className={cn(
+            "inline-flex items-center border-b pb-0.5 tnum",
+            onField ? "border-gold-bright/45" : "border-gold-deep/45",
+          )}
+        >
+          {index}
+        </span>
+        <span
+          aria-hidden="true"
+          className={cn(
+            "h-px w-6",
+            onField ? "bg-gold-bright/45" : "bg-gold-deep/45",
+          )}
+        />
+        <span className={onField ? "text-field-muted" : "text-slate"}>
+          {children}
+        </span>
+      </p>
+    );
+  }
+
   return (
-    <p
-      className={cn(
-        "eyebrow rule-lead",
-        onField ? "text-brass-bright" : "text-brass-deep",
-        className,
-      )}
-    >
-      {children}
-    </p>
+    <p className={cn("eyebrow rule-lead", tone, className)}>{children}</p>
   );
 }
 
 export function SectionHeading({
   eyebrow,
+  index,
   title,
   lead,
   align = "left",
@@ -35,6 +64,8 @@ export function SectionHeading({
   maxWidth = "max-w-[46rem]",
 }: {
   eyebrow?: string;
+  /** Chapter number, e.g. "01". Renders the eyebrow as a chapter marker. */
+  index?: string;
   title: React.ReactNode;
   lead?: React.ReactNode;
   align?: "left" | "center";
@@ -53,6 +84,7 @@ export function SectionHeading({
       {eyebrow ? (
         <Eyebrow
           onField={onField}
+          index={index}
           className={cn(align === "center" && "flex justify-center")}
         >
           {eyebrow}
@@ -107,7 +139,7 @@ export function DisclosureNote({
         aria-hidden="true"
         className={cn(
           "mt-[0.15rem] size-4 shrink-0",
-          onField ? "text-brass-bright" : "text-brass-deep",
+          onField ? "text-gold-bright" : "text-gold-deep",
         )}
       />
       <p className="[text-wrap:pretty]">{children}</p>

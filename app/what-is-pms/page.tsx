@@ -140,7 +140,7 @@ export default function WhatIsPmsPage() {
                 as="article"
                 className="flex h-full flex-col rounded-md border border-border bg-card p-7 transition-[border-color,box-shadow] duration-300 hover:border-border-strong hover:shadow-card"
               >
-                <span className="font-mono text-[0.66rem] tracking-[0.14em] text-brass-deep uppercase tnum">
+                <span className="font-mono text-[0.66rem] tracking-[0.14em] text-gold-deep uppercase tnum">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-4 text-[1.15rem] text-ink">{type.name}</h3>
@@ -276,7 +276,7 @@ function SuitabilityColumn({
   tone: "yes" | "no";
 }) {
   const Icon = tone === "yes" ? Check : X;
-  const accent = tone === "yes" ? "text-teal-bright" : "text-brass-bright";
+  const accent = tone === "yes" ? "text-azure-bright" : "text-gold-bright";
 
   return (
     <Reveal

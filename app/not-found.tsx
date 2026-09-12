@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <section className="bg-field text-field-foreground">
       <div className="container-page flex min-h-[62vh] flex-col justify-center py-24">
-        <p className="font-mono text-[0.72rem] tracking-[0.18em] text-brass-bright uppercase tnum">
+        <p className="font-mono text-[0.72rem] tracking-[0.18em] text-gold-bright uppercase tnum">
           Error 404
         </p>
         <h1 className="mt-6 max-w-[20ch] text-[clamp(2rem,4.5vw,3rem)] text-field-foreground">
@@ -31,7 +31,7 @@ export default function NotFound() {
                   </span>
                   <ArrowRight
                     aria-hidden="true"
-                    className="size-4 shrink-0 text-brass-bright"
+                    className="size-4 shrink-0 text-gold-bright"
                   />
                 </Link>
               </li>

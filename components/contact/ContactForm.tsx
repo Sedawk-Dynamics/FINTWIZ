@@ -88,10 +88,10 @@ export function ContactForm() {
 
   if (status === "sent" || status === "logged") {
     return (
-      <div className="rounded-md border border-teal-bright/40 bg-card p-8 md:p-10">
+      <div className="rounded-md border border-azure-bright/40 bg-card p-8 md:p-10">
         <span
           aria-hidden="true"
-          className="inline-flex size-11 items-center justify-center rounded-md border border-teal-bright/50 text-teal-bright"
+          className="inline-flex size-11 items-center justify-center rounded-md border border-azure-bright/50 text-azure-bright"
         >
           <CheckCircle2 className="size-5" />
         </span>
@@ -105,7 +105,7 @@ export function ContactForm() {
             Our mail system is not connected yet, so please also write to{" "}
             <a
               href={`mailto:${site.contact.general}`}
-              className="link-underline font-medium text-teal-bright"
+              className="link-underline font-medium text-azure-bright"
             >
               {site.contact.general}
             </a>{" "}
@@ -278,12 +278,12 @@ export function ContactForm() {
             name="consent"
             type="checkbox"
             aria-invalid={Boolean(errors.consent)}
-            className="mt-1 size-4 shrink-0 rounded-[2px] border-input accent-teal-bright"
+            className="mt-1 size-4 shrink-0 rounded-[2px] border-input accent-azure-bright"
           />
           <span className="text-[0.85rem] leading-[1.65] text-slate">
             I consent to {site.brand} storing these details in order to respond
             to my enquiry, as described in the{" "}
-            <a href="/privacy-policy" className="link-underline font-medium text-teal-bright">
+            <a href="/privacy-policy" className="link-underline font-medium text-azure-bright">
               privacy policy
             </a>
             .

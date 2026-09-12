@@ -11,7 +11,7 @@ export function Hero() {
   const preview = managers.slice(0, 3);
 
   return (
-    <section className="relative isolate overflow-hidden bg-field text-field-foreground">
+    <section className="brand-rule relative isolate overflow-hidden bg-field text-field-foreground">
       <HeroAmbient />
 
       <div className="container-page relative grid items-center gap-14 pt-20 pb-24 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20 lg:pt-28 lg:pb-32">
@@ -23,7 +23,7 @@ export function Hero() {
           <Reveal delay={0.08}>
             <h1 className="mt-6 max-w-[23ch] text-[clamp(2.1rem,4.7vw,3.4rem)] text-field-foreground">
               {hero.headline}{" "}
-              <span className="text-brass-bright">{hero.headlineAccent}</span>
+              <span className="text-gold-bright">{hero.headlineAccent}</span>
             </h1>
           </Reveal>
 
@@ -50,7 +50,7 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={0.3}>
-            <p className="mt-8 max-w-[52ch] border-l-2 border-brass/50 pl-4 text-[0.8125rem] leading-[1.7] text-field-muted">
+            <p className="mt-8 max-w-[52ch] border-l-2 border-gold/50 pl-4 text-[0.8125rem] leading-[1.7] text-field-muted">
               {site.legalName} is registered with {site.registration.authority}{" "}
               as a distributor of Portfolio Management Services under{" "}
               <span className="font-mono text-field-foreground tnum">
@@ -75,7 +75,7 @@ function ShortlistCard({ preview }: { preview: typeof managers }) {
     <div className="rounded-md border border-field-border bg-field/70 shadow-lift backdrop-blur-[2px]">
       <header className="flex items-center justify-between gap-4 border-b border-field-border px-5 py-4">
         <div className="flex items-center gap-2.5">
-          <FileText aria-hidden="true" className="size-4 text-brass-bright" />
+          <FileText aria-hidden="true" className="size-4 text-gold-bright" />
           <p className="text-[0.8125rem] font-medium text-field-foreground">
             A shortlist, as you would receive it
           </p>
@@ -100,7 +100,7 @@ function ShortlistCard({ preview }: { preview: typeof managers }) {
               </p>
             </div>
             <div className="shrink-0 text-right">
-              <p className="font-mono text-[0.7rem] text-brass-bright tnum">
+              <p className="font-mono text-[0.7rem] text-gold-bright tnum">
                 {m.category}
               </p>
               <p className="mt-0.5 font-mono text-[0.68rem] text-field-muted tnum">

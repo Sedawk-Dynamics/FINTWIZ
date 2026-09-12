@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage() {
           </p>
           <a
             href={`mailto:${site.contact.grievance}`}
-            className="link-underline mt-3 inline-block font-mono text-[0.85rem] text-teal-bright"
+            className="link-underline mt-3 inline-block font-mono text-[0.85rem] text-azure-bright"
           >
             {site.contact.grievance}
           </a>

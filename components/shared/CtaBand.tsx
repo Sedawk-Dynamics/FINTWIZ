@@ -24,7 +24,7 @@ export function CtaBand({
   secondaryHref?: string;
 }) {
   return (
-    <section className="relative isolate overflow-hidden bg-field text-field-foreground">
+    <section className="brand-rule relative isolate overflow-hidden bg-field text-field-foreground">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <Image
           src={photography.narimanPoint.src}
@@ -38,7 +38,7 @@ export function CtaBand({
 
       <div className="container-page relative py-20 md:py-24">
         <Reveal className="max-w-[44rem]">
-          <p className="eyebrow rule-lead text-brass-bright">{eyebrow}</p>
+          <p className="eyebrow rule-lead text-gold-bright">{eyebrow}</p>
           <h2 className="mt-5 text-[clamp(1.7rem,3.4vw,2.5rem)] text-field-foreground">
             {title}
           </h2>

@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import type { PortfolioManager } from "@/lib/managers";
+import { MandateGlyph } from "./MandateGlyph";
 import { cn } from "@/lib/utils";
 
 /**
@@ -24,7 +25,7 @@ export function ManagerCard({
       )}
     >
       <div className="flex items-center justify-between gap-4">
-        <span className="font-mono text-[0.66rem] tracking-[0.14em] text-brass-deep uppercase tnum">
+        <span className="font-mono text-[0.66rem] tracking-[0.14em] text-gold-deep uppercase tnum">
           {manager.serial}
         </span>
         <span className="rounded-sm border border-border px-2 py-0.5 font-mono text-[0.64rem] tracking-[0.08em] text-slate uppercase">
@@ -32,12 +33,20 @@ export function ManagerCard({
         </span>
       </div>
 
-      <h3 className="mt-5 text-[1.2rem] leading-tight text-ink">
-        {manager.house}
-      </h3>
-      <p className="mt-1.5 text-[0.875rem] text-brass-deep">
-        {manager.strategy}
-      </p>
+      <div className="mt-5 flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h3 className="text-[1.2rem] leading-tight text-ink">
+            {manager.house}
+          </h3>
+          <p className="mt-1.5 text-[0.875rem] text-gold-deep">
+            {manager.strategy}
+          </p>
+        </div>
+        <MandateGlyph
+          manager={manager}
+          className="mt-0.5 text-azure transition-opacity duration-300 group-hover:opacity-100 md:opacity-70"
+        />
+      </div>
 
       <p className="mt-4 text-[0.875rem] leading-[1.7] text-slate">
         {manager.summary}
@@ -88,7 +97,7 @@ export function ManagerCard({
           rel="noopener noreferrer"
           className={cn(
             "link-underline mt-4 inline-flex items-center gap-1.5",
-            "text-[0.85rem] font-medium text-teal-bright",
+            "text-[0.85rem] font-medium text-azure-bright",
             "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
           )}
         >

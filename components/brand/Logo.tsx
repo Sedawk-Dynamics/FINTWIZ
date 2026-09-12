@@ -1,58 +1,41 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
- * PLACEHOLDER WORDMARK.
+ * The client's supplied logo.
  *
- * The client has not supplied a vector logo yet. This is a considered
- * typographic lockup built so the whole site can ship today. When the real
- * SVG arrives, replace the contents of `FintwizMark` and, if the supplied
- * logo includes its own wordmark, replace `Logo` entirely. Nothing else in
- * the codebase references the brand mark directly.
+ * The lockup reads "Fintwiz" only, so the "Wealth" descriptor is set beside it
+ * behind a hairline rule. That is deliberate: this domain is the wealth
+ * distribution arm and has to be distinguishable from fintwiz.com at a glance,
+ * and the descriptor is the only thing that does that in the masthead.
  *
- * The mark reads as the business does: a single mandate entering on the left,
- * routed out to a shortlist of three managers on the right. Fintwiz Wealth is
- * the routing, never the destination.
+ * Assets are generated from the source PNG by `npm run build:brand`. If a true
+ * vector arrives, replace the source and re-run that script. Nothing else in
+ * the codebase references the mark directly.
  */
 
-export function FintwizMark({ className }: { className?: string }) {
+const LOCKUP = "/brand/logo-lockup.png";
+const MARK = "/brand/logo-mark.png";
+
+/** Aspect ratio of the trimmed lockup, 2260 x 437. */
+const LOCKUP_RATIO = 2260 / 437;
+
+export function FintwizMark({
+  className,
+  size = 28,
+}: {
+  className?: string;
+  size?: number;
+}) {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="none"
+    <Image
+      src={MARK}
+      alt=""
+      width={size}
+      height={size}
       aria-hidden="true"
-      className={cn("h-7 w-7 shrink-0", className)}
-    >
-      <rect
-        x="0.75"
-        y="0.75"
-        width="30.5"
-        height="30.5"
-        rx="1.5"
-        stroke="currentColor"
-        strokeOpacity="0.32"
-        strokeWidth="1.5"
-      />
-      {/* The mandate arrives */}
-      <path
-        d="M6 16h7"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="square"
-      />
-      {/* and is routed into a shortlist */}
-      <path
-        d="M13 16h4.5M17.5 16V8.5h3M17.5 16v7.5h3M17.5 16h3"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-      />
-      <g fill="var(--brass)">
-        <rect x="23.25" y="7.25" width="2.5" height="2.5" />
-        <rect x="23.25" y="14.75" width="2.5" height="2.5" />
-        <rect x="23.25" y="22.25" width="2.5" height="2.5" />
-      </g>
-    </svg>
+      className={cn("shrink-0", className)}
+    />
   );
 }
 
@@ -60,34 +43,45 @@ type LogoProps = {
   className?: string;
   /** Use on dark fields so the descriptor keeps contrast. */
   inverted?: boolean;
+  /** Rendered height of the lockup in pixels. */
+  height?: number;
+  priority?: boolean;
 };
 
-export function Logo({ className, inverted = false }: LogoProps) {
+export function Logo({
+  className,
+  inverted = false,
+  height = 27,
+  priority = false,
+}: LogoProps) {
+  const width = Math.round(height * LOCKUP_RATIO);
+
   return (
-    <span
-      className={cn("inline-flex items-center gap-2.5", className)}
-      aria-label="Fintwiz Wealth"
-    >
-      <FintwizMark
-        className={inverted ? "text-field-foreground" : "text-ink"}
+    <span className={cn("inline-flex items-center gap-3", className)}>
+      <Image
+        src={LOCKUP}
+        alt="Fintwiz"
+        width={width}
+        height={height}
+        priority={priority}
+        sizes={`${width}px`}
+        className="h-auto w-auto"
+        style={{ height, width }}
       />
-      <span className="flex flex-col leading-none">
-        <span
-          className={cn(
-            "font-display text-[1.28rem] font-semibold tracking-[-0.02em]",
-            inverted ? "text-field-foreground" : "text-ink",
-          )}
-        >
-          Fintwiz
-        </span>
-        <span
-          className={cn(
-            "mt-[3px] font-mono text-[0.5rem] font-medium tracking-[0.34em] uppercase",
-            inverted ? "text-brass-bright" : "text-brass-deep",
-          )}
-        >
-          Wealth
-        </span>
+      <span
+        aria-hidden="true"
+        className={cn(
+          "hidden h-6 w-px sm:block",
+          inverted ? "bg-field-border" : "bg-border-strong",
+        )}
+      />
+      <span
+        className={cn(
+          "hidden font-mono text-[0.58rem] leading-none font-medium tracking-[0.28em] uppercase sm:block",
+          inverted ? "text-field-muted" : "text-slate",
+        )}
+      >
+        Wealth
       </span>
     </span>
   );

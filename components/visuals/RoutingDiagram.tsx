@@ -51,7 +51,7 @@ export function RoutingDiagram({ className }: { className?: string }) {
 
         <defs>
           <marker
-            id="arrow-brass"
+            id="arrow-gold"
             viewBox="0 0 10 10"
             refX="8"
             refY="5"
@@ -59,10 +59,10 @@ export function RoutingDiagram({ className }: { className?: string }) {
             markerHeight="6"
             orient="auto-start-reverse"
           >
-            <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--brass)" />
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--gold)" />
           </marker>
           <marker
-            id="arrow-teal"
+            id="arrow-azure"
             viewBox="0 0 10 10"
             refX="8"
             refY="5"
@@ -70,7 +70,7 @@ export function RoutingDiagram({ className }: { className?: string }) {
             markerHeight="6"
             orient="auto-start-reverse"
           >
-            <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--teal-bright)" />
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--azure-bright)" />
           </marker>
         </defs>
 
@@ -79,20 +79,20 @@ export function RoutingDiagram({ className }: { className?: string }) {
           data-reveal=""
           d={ADVICE_IN}
           fill="none"
-          stroke="var(--brass)"
+          stroke="var(--gold)"
           strokeWidth="1.5"
           strokeDasharray="5 5"
-          markerEnd="url(#arrow-brass)"
+          markerEnd="url(#arrow-gold)"
           {...draw(0.1)}
         />
         <motion.path
           data-reveal=""
           d={ADVICE_OUT}
           fill="none"
-          stroke="var(--brass)"
+          stroke="var(--gold)"
           strokeWidth="1.5"
           strokeDasharray="5 5"
-          markerEnd="url(#arrow-brass)"
+          markerEnd="url(#arrow-gold)"
           {...draw(0.35)}
         />
 
@@ -101,14 +101,14 @@ export function RoutingDiagram({ className }: { className?: string }) {
           data-reveal=""
           d={CAPITAL}
           fill="none"
-          stroke="var(--teal-bright)"
+          stroke="var(--azure-bright)"
           strokeWidth="2"
-          markerEnd="url(#arrow-teal)"
+          markerEnd="url(#arrow-azure)"
           {...draw(0.55)}
         />
 
         {!reduced ? (
-          <circle r="4" fill="var(--teal-bright)">
+          <circle r="4" fill="var(--azure-bright)">
             <animateMotion dur="4.5s" repeatCount="indefinite" path={CAPITAL} />
             <animate
               attributeName="opacity"
@@ -138,7 +138,7 @@ export function RoutingDiagram({ className }: { className?: string }) {
           kicker={site.registration.number}
           title={site.brand}
           sub="Distributor"
-          tone="brass"
+          tone="gold"
         />
 
         <Node
@@ -149,7 +149,7 @@ export function RoutingDiagram({ className }: { className?: string }) {
           kicker="SEBI registered"
           title="Portfolio Manager"
           sub="Holds and manages"
-          tone="teal"
+          tone="azure"
         />
 
         {/* Route labels */}
@@ -157,7 +157,7 @@ export function RoutingDiagram({ className }: { className?: string }) {
           x={390}
           y={148}
           textAnchor="middle"
-          className="fill-brass-deep font-mono text-[10px] tracking-[0.1em] uppercase"
+          className="fill-gold-deep font-mono text-[10px] tracking-[0.1em] uppercase"
         >
           Shortlist, disclosures, onboarding
         </text>
@@ -165,7 +165,7 @@ export function RoutingDiagram({ className }: { className?: string }) {
           x={380}
           y={296}
           textAnchor="middle"
-          className="fill-teal-bright font-mono text-[10px] tracking-[0.1em] uppercase"
+          className="fill-azure-bright font-mono text-[10px] tracking-[0.1em] uppercase"
         >
           Your capital and securities, direct
         </text>
@@ -197,13 +197,13 @@ function Node({
   kicker: string;
   title: string;
   sub: string;
-  tone: "neutral" | "brass" | "teal";
+  tone: "neutral" | "gold" | "azure";
 }) {
   const stroke =
-    tone === "brass"
-      ? "var(--brass)"
-      : tone === "teal"
-        ? "var(--teal-bright)"
+    tone === "gold"
+      ? "var(--gold)"
+      : tone === "azure"
+        ? "var(--azure-bright)"
         : "var(--border-strong)";
 
   return (

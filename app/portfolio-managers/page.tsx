@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { FileCheck, ListFilter, ScrollText } from "lucide-react";
+import { photography } from "@/lib/media";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading, DisclosureNote } from "@/components/shared/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/shared/Reveal";
@@ -60,8 +62,22 @@ export default function PortfolioManagersPage() {
         </div>
       </section>
 
-      <section className="bg-secondary">
-        <div className="container-page section-y">
+      <section className="relative isolate overflow-hidden bg-secondary">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-0 hidden w-[38%] lg:block"
+        >
+          <Image
+            src={photography.centralBank.src}
+            alt=""
+            fill
+            sizes="38vw"
+            className="object-cover object-center opacity-[0.13]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/55 to-transparent" />
+        </div>
+
+        <div className="container-page relative section-y">
           <SectionHeading
             eyebrow="How to read this page"
             title="Three rules we hold ourselves to here."
@@ -79,7 +95,7 @@ export default function PortfolioManagersPage() {
                 >
                   <span
                     aria-hidden="true"
-                    className="inline-flex size-10 items-center justify-center rounded-md border border-border text-teal-bright"
+                    className="inline-flex size-10 items-center justify-center rounded-md border border-border text-azure-bright"
                   >
                     <Icon className="size-[1.1rem]" />
                   </span>

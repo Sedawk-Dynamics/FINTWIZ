@@ -6,34 +6,60 @@ import { cn } from "@/lib/utils";
 
 export const THEME_KEY = "fintwiz-theme";
 
-/**
- * Runs before paint, so the correct theme is applied on the very first frame
- * and there is no flash of the wrong palette. Injected in the document head.
- */
-export const themeInitScript = `(function(){try{var k="${THEME_KEY}";var s=localStorage.getItem(k);var d=s?s==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;if(d)document.documentElement.classList.add("dark");document.documentElement.style.colorScheme=d?"dark":"light";}catch(e){}})();`;
+type Choice = "light" | "dark";
 
 /**
- * The document element is the source of truth for the theme, because the
- * pre-paint script above sets it before React exists. Reading it through
- * useSyncExternalStore keeps that single source rather than mirroring it into
- * component state, and gives a correct server snapshot during hydration.
+ * Theme control.
+ *
+ * The palette itself is pure CSS: every token is a `light-dark()` pair and the
+ * system preference resolves before first paint with no JavaScript at all.
+ * This component only handles an explicit override, which it applies by setting
+ * `data-theme` on <html>.
+ *
+ * There is no pre-hydration bootstrap script. Rendering a <script> from a React
+ * component breaks hydration in React 19, and the only thing such a script
+ * bought us was the stored override, which affects a minority of visitors and
+ * is applied in a layout effect before paint.
+ *
+ * The DOM is the single source of truth, read through useSyncExternalStore, so
+ * the button state can never drift from the palette on screen.
  */
+
 function subscribe(onChange: () => void) {
   const observer = new MutationObserver(onChange);
   observer.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: ["class"],
+    attributeFilter: ["data-theme"],
   });
-  return () => observer.disconnect();
+
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+  media.addEventListener("change", onChange);
+
+  return () => {
+    observer.disconnect();
+    media.removeEventListener("change", onChange);
+  };
 }
 
-function getSnapshot() {
-  return document.documentElement.classList.contains("dark");
+function getSnapshot(): boolean {
+  const explicit = document.documentElement.dataset.theme;
+  if (explicit === "dark") return true;
+  if (explicit === "light") return false;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
-/** The server cannot know the visitor's stored preference. */
-function getServerSnapshot() {
+/** The server cannot know the visitor's system setting or stored choice. */
+function getServerSnapshot(): boolean {
   return false;
+}
+
+function readStored(): Choice | null {
+  try {
+    const value = localStorage.getItem(THEME_KEY);
+    return value === "dark" || value === "light" ? value : null;
+  } catch {
+    return null;
+  }
 }
 
 export function ThemeToggle({
@@ -49,12 +75,19 @@ export function ThemeToggle({
     getServerSnapshot,
   );
 
+  // Restore a stored override before the browser paints the hydrated tree.
+  // Visitors who have never used the toggle skip this entirely, because CSS
+  // has already resolved their system preference.
+  React.useLayoutEffect(() => {
+    const stored = readStored();
+    if (stored) document.documentElement.dataset.theme = stored;
+  }, []);
+
   const toggle = React.useCallback(() => {
-    const next = !document.documentElement.classList.contains("dark");
-    document.documentElement.classList.toggle("dark", next);
-    document.documentElement.style.colorScheme = next ? "dark" : "light";
+    const next: Choice = getSnapshot() ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
     try {
-      localStorage.setItem(THEME_KEY, next ? "dark" : "light");
+      localStorage.setItem(THEME_KEY, next);
     } catch {
       // Storage is unavailable in some private modes. The toggle still works
       // for this page view, it just will not persist.

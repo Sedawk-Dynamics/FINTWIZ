@@ -199,7 +199,7 @@ function ComparisonTable({ rows }: { rows: typeof managers }) {
                   href={manager.disclosureUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="link-underline inline-flex items-center gap-1 text-[0.82rem] text-teal-bright"
+                  className="link-underline inline-flex items-center gap-1 text-[0.82rem] text-azure-bright"
                 >
                   Document
                   <ArrowUpRight aria-hidden="true" className="size-3.5" />

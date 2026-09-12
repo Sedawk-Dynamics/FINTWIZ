@@ -11,6 +11,7 @@ export function RoleSplit() {
       <div className="container-page section-y">
         <SectionHeading
           eyebrow="Who does what"
+          index="01"
           title="One of us manages the money. It is not us."
           lead="This is the distinction that decides everything else: who holds the securities, who makes the decisions, who you pay, and who you complain to when something goes wrong."
         />
@@ -54,7 +55,7 @@ function RoleColumn({
   tone: "manager" | "distributor";
 }) {
   const Icon = tone === "manager" ? Check : Minus;
-  const accent = tone === "manager" ? "text-teal-bright" : "text-brass-deep";
+  const accent = tone === "manager" ? "text-azure-bright" : "text-gold-deep";
 
   return (
     <Reveal

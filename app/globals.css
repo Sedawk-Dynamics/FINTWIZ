@@ -50,13 +50,13 @@
   /* Accents, contrast-corrected for the surface they sit on */
   --gold: light-dark(#b8860f, #e0b64a);
   --gold-bright: light-dark(#fec21a, #fecb3a);
-  --gold-deep: light-dark(#8a6108, #d4a83c);
+  --gold-deep: light-dark(#7a5504, #d4a83c);
   --azure: light-dark(#0a5f92, #8fd4f5);
-  --azure-bright: light-dark(#1279b8, #5cc4f0);
+  --azure-bright: light-dark(#0f6aa3, #5cc4f0);
   --azure-soft: light-dark(#e8f4fb, #0d2a3d);
 
   --slate: light-dark(#55606e, #99a2ad);
-  --slate-light: light-dark(#7a8494, #78828e);
+  --slate-light: light-dark(#5a6472, #8a939e);
 
   /* Semantic (shadcn-compatible). These compose from the tokens above, which
      already invert, so they need no light-dark() of their own. */
@@ -275,7 +275,10 @@
     font-weight: 500;
     letter-spacing: -0.018em;
     line-height: 1.12;
-    text-wrap: balance;
+    /* "pretty" only stops a lone word landing on the last line. "balance"
+       was deliberately shortening lines to even them out, which left the
+       unused space beside headings that the client flagged. */
+    text-wrap: pretty;
   }
 
   p {

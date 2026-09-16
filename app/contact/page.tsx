@@ -2,18 +2,27 @@ import Image from "next/image";
 import { ArrowUpRight, Clock, Mail, Scale, ShieldAlert } from "lucide-react";
 import { photography } from "@/lib/media";
 import { PageHero } from "@/components/shared/PageHero";
-import { SectionHeading, DisclosureNote, RegBadge } from "@/components/shared/Section";
+import {
+  SectionHeading,
+  DisclosureNote,
+  RegBadge,
+} from "@/components/shared/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/shared/Reveal";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { pageMetadata } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { processSteps, site } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Contact",
   description:
     "Speak to Fintwiz Wealth about Portfolio Management Service distribution, request a manager shortlist, or raise a grievance with our named Grievance Officer.",
   path: "/contact",
-  keywords: ["contact PMS distributor", "PMS grievance", "SEBI SCORES", "SMART ODR"],
+  keywords: [
+    "contact PMS distributor",
+    "PMS grievance",
+    "SEBI SCORES",
+    "SMART ODR",
+  ],
 });
 
 const escalation = [
@@ -21,19 +30,60 @@ const escalation = [
     step: "01",
     title: `Write to our Grievance Officer`,
     body: `${site.officer.name} is the named Grievance Officer. ${site.contact.grievanceWindow}`,
-    action: { label: site.contact.grievance, href: `mailto:${site.contact.grievance}` },
+    action: {
+      label: site.contact.grievance,
+      href: `mailto:${site.contact.grievance}`,
+    },
   },
   {
     step: "02",
     title: "Escalate to SEBI through SCORES",
     body: "If you are not satisfied with our resolution, the SEBI complaints redress system accepts complaints against registered intermediaries directly.",
-    action: { label: "scores.sebi.gov.in", href: "https://scores.sebi.gov.in", external: true },
+    action: {
+      label: "scores.sebi.gov.in",
+      href: "https://scores.sebi.gov.in",
+      external: true,
+    },
   },
   {
     step: "03",
     title: "Online dispute resolution",
     body: "The SMART ODR platform provides conciliation and arbitration for disputes in the Indian securities market.",
-    action: { label: "smartodr.in", href: "https://smartodr.in", external: true },
+    action: {
+      label: "smartodr.in",
+      href: "https://smartodr.in",
+      external: true,
+    },
+  },
+] as const;
+
+const beforeYouWrite = [
+  {
+    heading: "We cannot advise on shares",
+    body: "This domain carries no securities research. If you want a view on a particular stock, we are the wrong firm and will say so.",
+  },
+  {
+    heading: `The minimum is ${site.pmsMinimum.display}`,
+    body: "Set by SEBI for all Portfolio Management Services. Below it, a PMS account cannot be opened at all.",
+  },
+  {
+    heading: "Nothing you send is a commitment",
+    body: "An enquiry starts a conversation. There is no cost, and no obligation to proceed at any stage.",
+  },
+] as const;
+
+const nextSteps = [
+  {
+    title: "A person reads it",
+    body: "Your enquiry goes to a member of the team, not an automated queue.",
+  },
+  {
+    title: "We reply",
+    body: site.contact.responseWindow,
+  },
+  {
+    title: "A first conversation, if PMS fits",
+    body: `${processSteps[0].duration} on what the capital is for. If PMS is the wrong instrument, we say so then.`,
   },
 ] as const;
 
@@ -66,7 +116,10 @@ export default function ContactPage() {
               href={`mailto:${site.contact.compliance}`}
             />
             <div className="flex items-center gap-3 rounded-md border border-field-border bg-white/[0.03] px-4 py-3">
-              <Clock aria-hidden="true" className="size-4 shrink-0 text-gold-bright" />
+              <Clock
+                aria-hidden="true"
+                className="size-4 shrink-0 text-gold-bright"
+              />
               <p className="text-[0.8125rem] text-field-muted">
                 {site.contact.responseWindow}
               </p>
@@ -76,23 +129,25 @@ export default function ContactPage() {
       />
 
       {/* Form */}
-      <section className="bg-background">
+      <section id="enquiry" className="bg-background">
         <div className="container-page section-y">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-            <div>
-              <SectionHeading
-                eyebrow="Send an enquiry"
-                title="A person reads this, not a queue."
-                maxWidth="max-w-none"
-              />
-              <Reveal delay={0.08} className="mt-10">
-                <ContactForm />
-              </Reveal>
-            </div>
+          {/* The heading spans both columns so the form and the side panel
+              start on the same line. */}
+          <SectionHeading
+            eyebrow="Send an enquiry"
+            title="A person reads this, not a queue."
+          />
 
-            <div className="lg:pt-24">
-              <Reveal delay={0.12}>
-                <div className="rounded-md border border-border bg-secondary p-7 md:p-8">
+          <div className="mt-10 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
+            <Reveal delay={0.08} className="h-full">
+              <ContactForm className="h-full" />
+            </Reveal>
+
+            {/* Stretches to the form's height. The first card absorbs any
+                remaining difference so the two columns end level. */}
+            <Reveal delay={0.12} className="h-full">
+              <div className="flex h-full flex-col gap-6">
+                <div className="flex-1 rounded-md border border-border bg-secondary p-6 md:p-8">
                   <p className="eyebrow rule-lead text-gold-deep">
                     Before you write
                   </p>
@@ -100,20 +155,7 @@ export default function ContactPage() {
                     Three things worth knowing
                   </h3>
                   <ul className="mt-6 space-y-5">
-                    {[
-                      {
-                        heading: "We cannot advise on shares",
-                        body: "This domain carries no securities research. If you want a view on a particular stock, we are the wrong firm and will say so.",
-                      },
-                      {
-                        heading: `The minimum is ${site.pmsMinimum.display}`,
-                        body: "Set by SEBI for all Portfolio Management Services. Below it, a PMS account cannot be opened at all.",
-                      },
-                      {
-                        heading: "Nothing you send is a commitment",
-                        body: "An enquiry starts a conversation. There is no cost, and no obligation to proceed at any stage.",
-                      },
-                    ].map((item) => (
+                    {beforeYouWrite.map((item) => (
                       <li key={item.heading}>
                         <p className="text-[0.95rem] font-medium text-ink">
                           {item.heading}
@@ -125,18 +167,50 @@ export default function ContactPage() {
                     ))}
                   </ul>
                 </div>
-              </Reveal>
 
-              <Reveal delay={0.16} className="mt-6">
-                <DisclosureNote>
-                  {site.brand} ({site.registration.number}) is a{" "}
-                  {site.registration.authority} registered distributor of
-                  Portfolio Management Services. We do not manage client funds
-                  and we do not provide advice on individual securities.
-                </DisclosureNote>
-              </Reveal>
-            </div>
+                <div className="rounded-md border border-border bg-card p-6 md:p-8">
+                  <p className="eyebrow rule-lead text-gold-deep">
+                    What happens next
+                  </p>
+                  <ol className="mt-5">
+                    {nextSteps.map((step, index) => (
+                      <li
+                        key={step.title}
+                        className="relative flex gap-4 pb-5 last:pb-0"
+                      >
+                        {index < nextSteps.length - 1 ? (
+                          <span
+                            aria-hidden="true"
+                            className="absolute top-3 -bottom-3 left-3 w-px -translate-x-1/2 bg-border-strong"
+                          />
+                        ) : null}
+                        <span className="relative z-10 flex size-6 shrink-0 items-center justify-center rounded-sm border border-azure-bright/50 bg-card font-mono text-[0.62rem] text-azure-bright tnum">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <div className="min-w-0 pt-0.5">
+                          <p className="text-[0.92rem] font-medium text-ink">
+                            {step.title}
+                          </p>
+                          <p className="mt-1 text-[0.84rem] leading-[1.65] text-slate">
+                            {step.body}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            </Reveal>
           </div>
+
+          <Reveal className="mt-8">
+            <DisclosureNote>
+              {site.brand} ({site.registration.number}) is a{" "}
+              {site.registration.authority} registered distributor of Portfolio
+              Management Services. We do not manage client funds and we do not
+              provide advice on individual securities.
+            </DisclosureNote>
+          </Reveal>
         </div>
       </section>
 
@@ -175,7 +249,10 @@ export default function ContactPage() {
       >
         {/* SEBI Bhavan, held right back. The escalation path on this page ends
             at the regulator, so the building is the subject, not decoration. */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+        >
           <Image
             src={photography.regulator.src}
             alt=""
@@ -194,7 +271,7 @@ export default function ContactPage() {
             lead="Complaints about our conduct as a distributor come to us first. Complaints about how your portfolio is managed belong with the portfolio manager who holds your mandate."
           />
 
-          <RevealGroup className="mt-14 grid gap-5 md:grid-cols-3">
+          <RevealGroup className="mt-14 grid gap-5 lg:grid-cols-3">
             {escalation.map((stage) => (
               <RevealItem
                 key={stage.step}
@@ -215,7 +292,7 @@ export default function ContactPage() {
                   {...("external" in stage.action && stage.action.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="link-underline mt-auto inline-flex items-center gap-1.5 pt-5 font-mono text-[0.78rem] text-gold-bright"
+                  className="link-underline mt-auto inline-flex items-center gap-1.5 pt-5 font-mono text-[0.78rem] [overflow-wrap:anywhere] text-gold-bright"
                 >
                   {stage.action.label}
                   {"external" in stage.action && stage.action.external ? (
@@ -260,7 +337,7 @@ function ContactTile({
         <span className="block font-mono text-[0.6rem] tracking-[0.14em] text-field-muted uppercase">
           {label}
         </span>
-        <span className="block truncate text-[0.875rem] text-field-foreground">
+        <span className="block text-[0.875rem] [overflow-wrap:anywhere] text-field-foreground">
           {value}
         </span>
       </span>

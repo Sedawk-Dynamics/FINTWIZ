@@ -2,10 +2,12 @@ import Image from "next/image";
 import { FileCheck, ListFilter, ScrollText } from "lucide-react";
 import { photography } from "@/lib/media";
 import { PageHero } from "@/components/shared/PageHero";
+import { HeroFacts } from "@/components/shared/HeroFacts";
 import { SectionHeading, DisclosureNote } from "@/components/shared/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/shared/Reveal";
 import { RosterExplorer } from "@/components/managers/RosterExplorer";
 import { CtaBand } from "@/components/shared/CtaBand";
+import { ShortlistFunnel } from "@/components/visuals/CtaVisuals";
 import { pageMetadata } from "@/lib/seo";
 import { managers } from "@/lib/managers";
 import { site } from "@/lib/site";
@@ -42,14 +44,29 @@ const principles = [
   },
 ] as const;
 
+const rosterCategories = Array.from(new Set(managers.map((m) => m.category)));
+
 export default function PortfolioManagersPage() {
   return (
     <>
       <PageHero
         eyebrow="The roster"
+        eyebrowTag="Sample"
         title="Empanelled managers, and the documents behind them."
         lead={`${managers.length} SEBI-registered portfolio managers are currently empanelled with ${site.brand}. Compare them on strategy and mandate, then read each manager's own disclosure document before you decide.`}
         crumb={{ name: "Portfolio Managers", path: "/portfolio-managers" }}
+        aside={
+          <HeroFacts
+            title="Roster at a glance"
+            tag="Sample"
+            facts={[
+              { term: "Empanelled managers", value: String(managers.length), note: "Listed in empanelment order" },
+              { term: "Strategy categories", value: String(rosterCategories.length), note: rosterCategories.join(", ") },
+              { term: "Each manager registered with", value: "SEBI", note: "Number shown on every entry" },
+              { term: "Figures written by us", value: "None", note: "Manager-disclosed only" },
+            ]}
+          />
+        }
       />
 
       <section className="bg-background">
@@ -114,12 +131,13 @@ export default function PortfolioManagersPage() {
 
       <CtaBand
         eyebrow="Narrowing it down"
-        title="Four managers is still three too many."
+        title="Four managers? Still too many."
         lead="Tell us the mandate and we will come back with two or three that fit it, along with the written reasoning for every manager we left out."
         primaryLabel="Request a shortlist"
-        primaryHref="/contact"
+        primaryHref="/contact#enquiry"
         secondaryLabel="See how we shortlist"
         secondaryHref="/how-it-works"
+        aside={<ShortlistFunnel />}
       />
     </>
   );

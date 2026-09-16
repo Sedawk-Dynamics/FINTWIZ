@@ -17,7 +17,8 @@ export function ManagerPreview() {
             index="04"
             title="Their strategies, their disclosures, their numbers."
             lead="Every entry links to that manager's own SEBI-format disclosure document. Inclusion here is not a recommendation, and the order is not a ranking."
-            maxWidth="max-w-[42rem]"
+            maxWidth="max-w-none"
+            className="min-w-0 flex-1 basis-[28rem]"
           />
           <Reveal className="hidden lg:block">
             <Button asChild variant="outline">

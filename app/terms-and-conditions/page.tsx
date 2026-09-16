@@ -1,8 +1,10 @@
 import { ArrowUpRight } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
+import { HeroFacts } from "@/components/shared/HeroFacts";
 import { LegalDocument } from "@/components/shared/LegalDocument";
 import { pageMetadata } from "@/lib/seo";
-import { termsSections } from "@/lib/content/legal";
+import { LEGAL_UPDATED, termsSections } from "@/lib/content/legal";
+import { site } from "@/lib/site";
 import { mediaCredits } from "@/lib/media";
 
 export const metadata = pageMetadata({
@@ -20,6 +22,17 @@ export default function TermsPage() {
         title="What this site is, and what it is not."
         lead="Short version: this is an informational site run by a distributor. It carries no investment advice, no research and no performance figures of our own, and every investment decision described here remains yours."
         crumb={{ name: "Terms & Conditions", path: "/terms-and-conditions" }}
+        aside={
+          <HeroFacts
+            title="These terms at a glance"
+            facts={[
+              { term: "Last updated", value: LEGAL_UPDATED },
+              { term: "Sections", value: String(termsSections.length) },
+              { term: "Governing law", value: "India" },
+              { term: "Registration", value: site.registration.number, note: site.registration.authority },
+            ]}
+          />
+        }
       />
 
       <LegalDocument sections={termsSections}>

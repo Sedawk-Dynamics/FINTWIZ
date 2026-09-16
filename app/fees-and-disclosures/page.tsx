@@ -4,6 +4,7 @@ import { SectionHeading, DisclosureNote, RegBadge } from "@/components/shared/Se
 import { Reveal, RevealGroup, RevealItem } from "@/components/shared/Reveal";
 import { FeeFlow } from "@/components/visuals/FeeFlow";
 import { CtaBand } from "@/components/shared/CtaBand";
+import { QuestionsCard } from "@/components/visuals/CtaVisuals";
 import {
   Accordion,
   AccordionContent,
@@ -18,6 +19,7 @@ import {
   standardRiskLine,
 } from "@/lib/compliance";
 import { costsOverview } from "@/lib/content/pms";
+import { managers } from "@/lib/managers";
 
 export const metadata = pageMetadata({
   title: "Fees & Disclosures",
@@ -82,13 +84,13 @@ export default function FeesAndDisclosuresPage() {
                 maxWidth="max-w-none"
               />
               <Reveal delay={0.08} className="mt-7 space-y-5">
-                <p className="max-w-[60ch] text-[1rem] leading-[1.78] text-slate">
+                <p className="text-[1rem] leading-[1.78] text-slate">
                   A distributor paid more by one portfolio manager than another
                   has a financial incentive to steer you toward the one that
                   pays better. Every distributor has this conflict. Most describe
                   it away in a footer.
                 </p>
-                <p className="max-w-[60ch] text-[1rem] leading-[1.78] text-slate">
+                <p className="text-[1rem] leading-[1.78] text-slate">
                   We manage it with two commitments. First, the written
                   reasoning for every manager we include in a shortlist, and
                   every manager we leave out, is given to you as part of the
@@ -96,29 +98,55 @@ export default function FeesAndDisclosuresPage() {
                   shortlisted manager is disclosed to you in writing before you
                   sign anything.
                 </p>
-                <p className="max-w-[60ch] text-[1rem] leading-[1.78] text-slate">
+                <p className="text-[1rem] leading-[1.78] text-slate">
                   You are entitled to ask for both at any point, and to ask why
                   a better-paying manager was or was not on your list.
                 </p>
               </Reveal>
             </div>
 
-            <Reveal delay={0.12}>
-              <div className="rounded-md border border-gold/35 bg-card p-7 md:p-8">
-                <span
-                  aria-hidden="true"
-                  className="inline-flex size-10 items-center justify-center rounded-md border border-gold/45 text-gold-deep"
-                >
-                  <Scale className="size-[1.1rem]" />
-                </span>
-                <h3 className="mt-6 text-[1.15rem] text-ink">
-                  Commission bands
-                </h3>
-                <p className="mt-3 text-[0.9rem] leading-[1.72] text-slate">
-                  The actual band applying to each empanelled manager is being
-                  finalised and will be published here in full.
-                </p>
-                <div className="mt-6 flex items-start gap-3 rounded-md border border-border bg-muted/70 p-4">
+            <Reveal delay={0.12} className="h-full">
+              <div className="flex h-full flex-col justify-between gap-6 rounded-md border border-gold/35 bg-card p-6 md:p-8">
+                <div>
+                  <div className="flex items-center gap-4">
+                    <span
+                      aria-hidden="true"
+                      className="inline-flex size-10 shrink-0 items-center justify-center rounded-md border border-gold/45 text-gold-deep"
+                    >
+                      <Scale className="size-[1.1rem]" />
+                    </span>
+                    <h3 className="text-[1.15rem] text-ink">Commission bands</h3>
+                  </div>
+                  <p className="mt-5 text-[0.9rem] leading-[1.72] text-slate">
+                    The actual band applying to each empanelled manager is being
+                    finalised and will be published here in full.
+                  </p>
+                </div>
+
+                {/* Where the bands will appear, so the gap is visible rather than implied. */}
+                <div className="overflow-hidden rounded-md border border-border">
+                  <div className="flex items-center justify-between gap-4 border-b border-border bg-secondary px-4 py-2.5 font-mono text-[0.64rem] tracking-[0.12em] text-slate uppercase">
+                    <span>Manager</span>
+                    <span>Commission band</span>
+                  </div>
+                  <ul>
+                    {managers.map((m) => (
+                      <li
+                        key={m.id}
+                        className="flex items-center justify-between gap-4 border-b border-border px-4 py-3 last:border-b-0"
+                      >
+                        <span className="min-w-0 text-[0.85rem] text-ink">
+                          {m.house}
+                        </span>
+                        <span className="shrink-0 rounded-sm border border-dashed border-border-strong px-2 py-0.5 font-mono text-[0.64rem] tracking-[0.08em] text-slate uppercase">
+                          To be published
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="flex items-start gap-3 rounded-md border border-border bg-muted/70 p-4">
                   <AlertTriangle
                     aria-hidden="true"
                     className="mt-0.5 size-4 shrink-0 text-gold-deep"
@@ -211,7 +239,7 @@ export default function FeesAndDisclosuresPage() {
           <Reveal className="mt-10">
             <div className="rounded-md border border-field-border bg-white/[0.025] p-6 md:p-7">
               <p className="eyebrow text-gold-bright">Standard risk warning</p>
-              <p className="mt-4 max-w-[88ch] font-mono text-[0.8rem] leading-[1.8] text-field-muted">
+              <p className="mt-4 font-mono text-[0.8rem] leading-[1.8] text-field-muted">
                 {standardRiskLine}
               </p>
             </div>
@@ -224,9 +252,10 @@ export default function FeesAndDisclosuresPage() {
         title="Ask us the uncomfortable question."
         lead="Which manager on the roster pays us the most, and why are they or are they not on your shortlist. It is a fair question and you will get a straight answer."
         primaryLabel="Ask us directly"
-        primaryHref="/contact"
+        primaryHref="/contact#enquiry"
         secondaryLabel="See the roster"
         secondaryHref="/portfolio-managers"
+        aside={<QuestionsCard />}
       />
     </>
   );

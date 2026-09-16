@@ -47,7 +47,7 @@ export function Footer() {
         <div className="mt-14 grid gap-12 border-b border-field-border pb-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <Logo inverted />
-            <p className="mt-5 max-w-[30ch] text-[0.875rem] leading-[1.7]">
+            <p className="mt-5 text-[0.875rem] leading-[1.7]">
               {site.shortDescription}
             </p>
             <a
@@ -64,7 +64,7 @@ export function Footer() {
           <FooterColumn title="Legal" links={site.footerNav.company} />
         </div>
 
-        <p className="mt-10 max-w-[86ch] text-[0.75rem] leading-[1.75] text-field-muted">
+        <p className="mt-10 text-[0.75rem] leading-[1.75] text-field-muted">
           {standardRiskLine}
         </p>
 

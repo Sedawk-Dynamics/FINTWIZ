@@ -1,12 +1,13 @@
-import Image from "next/image";
 import { ClipboardList, FileSearch, Handshake, ShieldQuestion } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
+import { HeroFacts } from "@/components/shared/HeroFacts";
+import { FillFigure } from "@/components/shared/FillFigure";
 import { SectionHeading, DisclosureNote } from "@/components/shared/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/shared/Reveal";
 import { ProcessTimeline } from "@/components/visuals/ProcessTimeline";
 import { CtaBand } from "@/components/shared/CtaBand";
 import { pageMetadata } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { processSteps, site } from "@/lib/site";
 import { roleStatement } from "@/lib/compliance";
 import { photography } from "@/lib/media";
 
@@ -54,9 +55,20 @@ export default function HowItWorksPage() {
         title="Five stages, and the paperwork that goes with each."
         lead="Nothing here is proprietary. Publishing the process means you can hold us to it, and it means you can tell how far along you are without having to ask."
         crumb={{ name: "How It Works", path: "/how-it-works" }}
+        aside={
+          <HeroFacts
+            title="Before stage one"
+            facts={[
+              { term: "What to bring", value: "The purpose of the capital", note: "Horizon and liquidity needs" },
+              { term: "Minimum to invest", value: site.pmsMinimum.display, note: "Set by SEBI" },
+              { term: "First conversation", value: processSteps[0].duration, note: "Stage one" },
+              { term: "Cost of stage one", value: "Nothing", note: "No obligation to proceed" },
+            ]}
+          />
+        }
       />
 
-      <section className="bg-background">
+      <section id="process" className="bg-background">
         <div className="container-page section-y">
           <SectionHeading
             eyebrow="Stage by stage"
@@ -75,22 +87,14 @@ export default function HowItWorksPage() {
       <section className="bg-secondary">
         <div className="container-page section-y">
           <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-            <Reveal>
-              <figure className="overflow-hidden rounded-md border border-border">
-                <Image
-                  src={photography.financialDistrict.src}
-                  alt={photography.financialDistrict.alt}
-                  width={1920}
-                  height={1440}
-                  sizes="(min-width: 1024px) 46vw, 100vw"
-                  className="h-full w-full object-cover"
-                />
-                <figcaption className="border-t border-border bg-card px-5 py-4 text-[0.78rem] leading-relaxed text-slate">
-                  The Bandra Kurla Complex, Mumbai. Most of the portfolio
-                  managers on our roster operate from here or from Nariman
-                  Point.
-                </figcaption>
-              </figure>
+            <Reveal className="h-full">
+              <FillFigure
+                src={photography.financialDistrict.src}
+                alt={photography.financialDistrict.alt}
+                sizes="(min-width: 1024px) 46vw, 100vw"
+                objectPosition="55% center"
+                caption="The Bandra Kurla Complex, Mumbai, where both SEBI and the National Stock Exchange are headquartered."
+              />
             </Reveal>
 
             <div>
@@ -185,6 +189,8 @@ export default function HowItWorksPage() {
         eyebrow="Stage one"
         title="The first conversation costs nothing and commits nothing."
         lead="Forty five minutes on what the capital is for. If PMS is the wrong instrument, you will hear that in the first meeting rather than the third."
+        secondaryLabel="Review the five stages"
+        secondaryHref="#process"
       />
     </>
   );

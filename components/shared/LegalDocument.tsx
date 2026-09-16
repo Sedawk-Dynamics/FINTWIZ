@@ -44,7 +44,7 @@ export function LegalDocument({
             </p>
           </nav>
 
-          <div className="max-w-[68ch]">
+          <div className="min-w-0">
             {sections.map((section, index) => (
               <Reveal
                 key={section.id}

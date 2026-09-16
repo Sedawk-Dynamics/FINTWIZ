@@ -1,21 +1,24 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, type Variants } from "motion/react";
 
 /**
  * The site's only scroll-triggered effect.
  *
  * Deliberately restrained: a short fade and a 14px lift, once, never repeated.
- * No parallax, no scroll-linked scaling, no pinned sections. If the visitor has
- * asked for reduced motion, the content is rendered as a plain element with no
- * motion wrapper at all.
+ * No parallax, no scroll-linked scaling, no pinned sections.
+ *
+ * REDUCED MOTION
+ * --------------
+ * These components always render the same markup. Reduced motion is handled
+ * by `MotionProvider` (`reducedMotion="user"`), which drops the lift and keeps
+ * only the fade. Branching the output on `useReducedMotion()` here used to make
+ * the browser's first render differ from the server's for reduced-motion
+ * visitors; React kept the server's `opacity:0`, and the whole page was blank.
  *
  * Every animated element carries `data-reveal`, which the `<noscript>` rule in
- * app/layout.tsx targets. Motion server-renders its `initial` values as inline
- * styles, so without that rule a visitor with JavaScript unavailable would get
- * a blank page. On an informational site about a regulated product, the content
- * has to survive the animation layer failing.
+ * app/layout.tsx targets, so content also survives JavaScript being unavailable.
  */
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -34,13 +37,7 @@ export function Reveal({
   delay = 0,
   as = "div",
 }: RevealProps) {
-  const reduced = useReducedMotion();
   const MotionTag = motion[as];
-
-  if (reduced) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
 
   return (
     <MotionTag
@@ -71,13 +68,7 @@ export function RevealGroup({
   stagger?: number;
   as?: "div" | "ul" | "ol";
 }) {
-  const reduced = useReducedMotion();
   const MotionTag = motion[as];
-
-  if (reduced) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
 
   const container: Variants = {
     hidden: {},
@@ -111,13 +102,7 @@ export function RevealItem({
   className?: string;
   as?: "div" | "li" | "article";
 }) {
-  const reduced = useReducedMotion();
   const MotionTag = motion[as];
-
-  if (reduced) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
 
   return (
     <MotionTag data-reveal="" className={className} variants={itemVariants}>

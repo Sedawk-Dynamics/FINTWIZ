@@ -58,7 +58,9 @@ export function Header() {
       className={cn(
         "sticky top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300",
         "border-b bg-background/85 backdrop-blur-md",
-        scrolled ? "border-border shadow-[0_1px_0_0_var(--border)]" : "border-transparent",
+        scrolled
+          ? "border-border shadow-[0_1px_0_0_var(--border)]"
+          : "border-transparent",
       )}
     >
       <div className="container-page flex h-[4.5rem] items-center justify-between gap-6">
@@ -95,8 +97,14 @@ export function Header() {
 
         <div className="flex items-center gap-2.5">
           <ThemeToggle />
-          <Button asChild size="sm" className="hidden sm:inline-flex">
-            <Link href="/contact">Book a consultation</Link>
+          {/* Between lg and xl the full nav and this button do not fit on one
+              line beside the logo. Contact is already in the nav there. */}
+          <Button
+            asChild
+            size="sm"
+            className="hidden sm:inline-flex lg:hidden xl:inline-flex"
+          >
+            <Link href="/contact#enquiry">Book a consultation</Link>
           </Button>
           <button
             type="button"
@@ -131,36 +139,46 @@ export function Header() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: reduced ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: reduced ? 0 : 0.28,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="overflow-hidden border-t border-border bg-background lg:hidden"
           >
-            <nav aria-label="Primary, mobile" className="container-page py-2">
-              <ul>
-                {site.nav.map((item) => (
-                  <li key={item.href} className="border-b border-border last:border-b-0">
-                    <Link
-                      href={item.href}
-                      aria-current={isActive(item.href) ? "page" : undefined}
-                      className={cn(
-                        "flex items-center justify-between py-4 text-[0.975rem]",
-                        isActive(item.href) ? "text-ink" : "text-slate",
-                      )}
+            {/* Capped and scrollable: on a landscape phone the menu is taller
+                than the screen, and the page behind it is scroll-locked. */}
+            <div className="max-h-[calc(100dvh-8rem)] overflow-y-auto overscroll-contain">
+              <nav aria-label="Primary, mobile" className="container-page py-2">
+                <ul>
+                  {site.nav.map((item) => (
+                    <li
+                      key={item.href}
+                      className="border-b border-border last:border-b-0"
                     >
-                      {item.label}
-                      {isActive(item.href) ? (
-                        <span
-                          aria-hidden="true"
-                          className="h-1 w-1 bg-gold"
-                        />
-                      ) : null}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <Button asChild size="lg" className="my-5 w-full">
-                <Link href="/contact">Book a consultation</Link>
-              </Button>
-            </nav>
+                      <Link
+                        href={item.href}
+                        aria-current={isActive(item.href) ? "page" : undefined}
+                        className={cn(
+                          "flex items-center justify-between py-4 text-[0.975rem]",
+                          isActive(item.href) ? "text-ink" : "text-slate",
+                        )}
+                      >
+                        {item.label}
+                        {isActive(item.href) ? (
+                          <span
+                            aria-hidden="true"
+                            className="h-1 w-1 bg-gold"
+                          />
+                        ) : null}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <Button asChild size="lg" className="my-5 w-full">
+                  <Link href="/contact#enquiry">Book a consultation</Link>
+                </Button>
+              </nav>
+            </div>
           </motion.div>
         ) : null}
       </AnimatePresence>

@@ -29,11 +29,11 @@ export function Officer() {
         />
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[auto_1fr] lg:gap-16">
-          <Reveal>
+          <Reveal className="h-full">
             <MonogramPlate initials={initials} />
           </Reveal>
 
-          <Reveal delay={0.1} className="max-w-[58ch]">
+          <Reveal delay={0.1}>
             <h3 className="text-[1.6rem] text-field-foreground">
               {site.officer.name}
             </h3>
@@ -85,7 +85,9 @@ function MonogramPlate({ initials }: { initials: string }) {
   return (
     <div
       aria-hidden="true"
-      className="relative flex size-52 items-center justify-center rounded-md border border-field-border bg-white/[0.03] lg:size-60"
+      // Square on small screens; on desktop it keeps its width and stretches
+      // to the height of the bio beside it, as a portrait photo will.
+      className="relative flex size-52 items-center justify-center rounded-md border border-field-border bg-white/[0.03] lg:h-full lg:min-h-60 lg:w-60"
     >
       <DiamondField className="rounded-md text-field-border opacity-70" scale={40} />
       <span className="relative font-display text-[3.4rem] font-medium text-field-foreground/85">

@@ -10,10 +10,10 @@ export default function NotFound() {
         <p className="font-mono text-[0.72rem] tracking-[0.18em] text-gold-bright uppercase tnum">
           Error 404
         </p>
-        <h1 className="mt-6 max-w-[20ch] text-[clamp(2rem,4.5vw,3rem)] text-field-foreground">
+        <h1 className="mt-6 text-[clamp(2rem,4.5vw,3rem)] text-field-foreground">
           That page is not here.
         </h1>
-        <p className="mt-5 max-w-[52ch] text-[1.0125rem] leading-[1.72] text-field-muted">
+        <p className="mt-5 text-[1.0125rem] leading-[1.72] text-field-muted">
           The link may be out of date, or the page may have moved. Everything on
           this site is reachable from the four pages below.
         </p>

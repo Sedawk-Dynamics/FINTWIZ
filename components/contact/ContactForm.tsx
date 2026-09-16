@@ -24,7 +24,7 @@ const FIELD_CLASS = cn(
   "aria-[invalid=true]:border-destructive",
 );
 
-export function ContactForm() {
+export function ContactForm({ className }: { className?: string } = {}) {
   const [status, setStatus] = React.useState<Status>("idle");
   const [errors, setErrors] = React.useState<Errors>({});
   const [serverMessage, setServerMessage] = React.useState("");
@@ -88,7 +88,12 @@ export function ContactForm() {
 
   if (status === "sent" || status === "logged") {
     return (
-      <div className="rounded-md border border-azure-bright/40 bg-card p-8 md:p-10">
+      <div
+        className={cn(
+          "rounded-md border border-azure-bright/40 bg-card p-6 md:p-10",
+          className,
+        )}
+      >
         <span
           aria-hidden="true"
           className="inline-flex size-11 items-center justify-center rounded-md border border-azure-bright/50 text-azure-bright"
@@ -96,12 +101,12 @@ export function ContactForm() {
           <CheckCircle2 className="size-5" />
         </span>
         <h3 className="mt-6 text-[1.3rem] text-ink">Enquiry received</h3>
-        <p className="mt-3 max-w-[52ch] text-[0.95rem] leading-[1.72] text-slate">
+        <p className="mt-3 text-[0.95rem] leading-[1.72] text-slate">
           {serverMessage}
         </p>
 
         {status === "logged" ? (
-          <p className="mt-5 max-w-[52ch] rounded-md border border-border bg-muted/70 p-4 text-[0.85rem] leading-[1.68] text-slate">
+          <p className="mt-5 rounded-md border border-border bg-muted/70 p-4 text-[0.85rem] leading-[1.68] text-slate">
             Our mail system is not connected yet, so please also write to{" "}
             <a
               href={`mailto:${site.contact.general}`}
@@ -133,7 +138,10 @@ export function ContactForm() {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="rounded-md border border-border bg-card p-6 md:p-8"
+      className={cn(
+        "flex flex-col rounded-md border border-border bg-card p-6 md:p-8",
+        className,
+      )}
     >
       <div
         ref={summaryRef}
@@ -154,7 +162,7 @@ export function ContactForm() {
         ) : null}
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid flex-1 gap-5 sm:grid-cols-2 lg:grid-rows-[auto_auto_auto_1fr]">
         <Field id="name" label="Full name" error={errors.name}>
           <input
             id="name"
@@ -181,12 +189,7 @@ export function ContactForm() {
           />
         </Field>
 
-        <Field
-          id="phone"
-          label="Phone"
-          optional
-          error={errors.phone}
-        >
+        <Field id="phone" label="Phone" optional error={errors.phone}>
           <input
             id="phone"
             name="phone"
@@ -198,14 +201,20 @@ export function ContactForm() {
           />
         </Field>
 
-        <Field id="enquiryType" label="What is this about" error={errors.enquiryType}>
+        <Field
+          id="enquiryType"
+          label="What is this about"
+          error={errors.enquiryType}
+        >
           <select
             id="enquiryType"
             name="enquiryType"
             defaultValue=""
             required
             aria-invalid={Boolean(errors.enquiryType)}
-            aria-describedby={errors.enquiryType ? "enquiryType-error" : undefined}
+            aria-describedby={
+              errors.enquiryType ? "enquiryType-error" : undefined
+            }
             className={FIELD_CLASS}
           >
             <option value="" disabled>
@@ -250,8 +259,13 @@ export function ContactForm() {
           </Field>
         </div>
 
-        <div className="sm:col-span-2">
-          <Field id="message" label="How can we help" error={errors.message}>
+        <div className="sm:col-span-2 lg:flex lg:flex-col">
+          <Field
+            id="message"
+            label="How can we help"
+            error={errors.message}
+            className="lg:flex lg:flex-1 lg:flex-col"
+          >
             <textarea
               id="message"
               name="message"
@@ -259,20 +273,30 @@ export function ContactForm() {
               required
               aria-invalid={Boolean(errors.message)}
               aria-describedby={errors.message ? "message-error" : undefined}
-              className={cn(FIELD_CLASS, "resize-y")}
+              className={cn(FIELD_CLASS, "resize-y lg:min-h-36 lg:flex-1")}
             />
           </Field>
         </div>
       </div>
-
-      {/* Honeypot. Hidden from people, irresistible to bots. */}
-      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
+      >
         <label htmlFor="website">Leave this field empty</label>
-        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
 
       <div className="mt-6">
-        <label htmlFor="consent" className="flex cursor-pointer items-start gap-3">
+        <label
+          htmlFor="consent"
+          className="flex cursor-pointer items-start gap-3"
+        >
           <input
             id="consent"
             name="consent"
@@ -283,14 +307,19 @@ export function ContactForm() {
           <span className="text-[0.85rem] leading-[1.65] text-slate">
             I consent to {site.brand} storing these details in order to respond
             to my enquiry, as described in the{" "}
-            <a href="/privacy-policy" className="link-underline font-medium text-azure-bright">
+            <a
+              href="/privacy-policy"
+              className="link-underline font-medium text-azure-bright"
+            >
               privacy policy
             </a>
             .
           </span>
         </label>
         {errors.consent ? (
-          <p className="mt-2 text-[0.8rem] text-destructive">{errors.consent}</p>
+          <p className="mt-2 text-[0.8rem] text-destructive">
+            {errors.consent}
+          </p>
         ) : null}
       </div>
 
@@ -298,7 +327,7 @@ export function ContactForm() {
         type="submit"
         size="lg"
         disabled={status === "submitting"}
-        className="mt-8 w-full sm:w-auto"
+        className="mt-8 w-full sm:w-auto sm:self-start"
       >
         {status === "submitting" ? (
           <>
@@ -327,6 +356,7 @@ function Field({
   error,
   hint,
   optional = false,
+  className,
   children,
 }: {
   id: string;
@@ -334,10 +364,11 @@ function Field({
   error?: string;
   hint?: string;
   optional?: boolean;
+  className?: string;
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className={className}>
       <label
         htmlFor={id}
         className="mb-2 block text-[0.82rem] font-medium text-ink"
@@ -349,7 +380,10 @@ function Field({
       </label>
       {children}
       {hint ? (
-        <p id={`${id}-hint`} className="mt-2 text-[0.78rem] leading-[1.6] text-slate-light">
+        <p
+          id={`${id}-hint`}
+          className="mt-2 text-[0.78rem] leading-[1.6] text-slate-light"
+        >
           {hint}
         </p>
       ) : null}

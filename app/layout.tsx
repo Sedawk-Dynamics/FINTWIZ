@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { TrustStrip } from "@/components/layout/TrustStrip";
+import { MotionProvider } from "@/components/shared/MotionProvider";
 import { SITE_URL, organizationJsonLd, jsonLdScript } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -107,7 +108,7 @@ export default function RootLayout({
         <noscript
           dangerouslySetInnerHTML={{
             __html:
-              "<style>[data-reveal]{opacity:1!important;transform:none!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}</style>",
+              "<style>[data-reveal]{opacity:1!important;transform:none!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}[data-reveal][data-dash]{stroke-dasharray:var(--dash)!important}</style>",
           }}
         />
       </head>
@@ -118,12 +119,14 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <TrustStrip />
-        <Header />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <MotionProvider>
+          <TrustStrip />
+          <Header />
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </MotionProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd()) }}

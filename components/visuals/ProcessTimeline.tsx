@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "motion/react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { processSteps } from "@/lib/site";
 
 /**
@@ -17,10 +11,12 @@ import { processSteps } from "@/lib/site";
  * is the only scroll-linked effect on the site, and it is here because it
  * carries meaning (how far through the process you are) rather than decoration.
  * Nothing is pinned and nothing is hijacked: the page scrolls normally.
+ *
+ * The fill and the marker highlights are always rendered, so the markup matches
+ * the server, and are hidden by CSS for reduced-motion visitors.
  */
 export function ProcessTimeline() {
   const ref = React.useRef<HTMLOListElement>(null);
-  const reduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -40,16 +36,14 @@ export function ProcessTimeline() {
         className="absolute top-2 bottom-2 left-[1.1875rem] w-px bg-border md:left-[1.6875rem]"
       />
       {/* Rail fill */}
-      {!reduced ? (
-        <motion.span
-          aria-hidden="true"
-          style={{ scaleY, transformOrigin: "top" }}
-          className="absolute top-2 bottom-2 left-[1.1875rem] w-px bg-azure-bright md:left-[1.6875rem]"
-        />
-      ) : null}
+      <motion.span
+        aria-hidden="true"
+        style={{ scaleY, transformOrigin: "top" }}
+        className="absolute top-2 bottom-2 left-[1.1875rem] w-px bg-azure-bright motion-reduce:hidden md:left-[1.6875rem]"
+      />
 
       {processSteps.map((step, index) => (
-        <Step key={step.step} step={step} index={index} reduced={!!reduced} />
+        <Step key={step.step} step={step} index={index} />
       ))}
     </ol>
   );
@@ -58,11 +52,9 @@ export function ProcessTimeline() {
 function Step({
   step,
   index,
-  reduced,
 }: {
   step: (typeof processSteps)[number];
   index: number;
-  reduced: boolean;
 }) {
   const ref = React.useRef<HTMLLIElement>(null);
   const { scrollYProgress } = useScroll({
@@ -76,13 +68,11 @@ function Step({
     <li ref={ref} className="relative flex gap-6 pb-12 last:pb-0 md:gap-9">
       <div className="relative z-10 shrink-0">
         <span className="relative flex size-10 items-center justify-center rounded-md border border-border bg-background font-mono text-[0.78rem] text-slate tnum md:size-14 md:text-[0.9rem]">
-          {!reduced ? (
-            <motion.span
-              aria-hidden="true"
-              style={{ opacity: markerOpacity }}
-              className="absolute inset-0 rounded-md border border-azure-bright bg-azure-soft"
-            />
-          ) : null}
+          <motion.span
+            aria-hidden="true"
+            style={{ opacity: markerOpacity }}
+            className="absolute inset-0 rounded-md border border-azure-bright bg-azure-soft motion-reduce:hidden"
+          />
           <span className="relative text-ink">{step.step}</span>
         </span>
       </div>
@@ -96,11 +86,11 @@ function Step({
             {step.duration}
           </span>
         </div>
-        <p className="mt-3 max-w-[58ch] text-[0.95rem] leading-[1.74] text-slate">
+        <p className="mt-3 text-[0.95rem] leading-[1.74] text-slate">
           {step.body}
         </p>
         {index === 1 ? (
-          <p className="mt-4 max-w-[58ch] border-l-2 border-gold/50 pl-4 text-[0.85rem] leading-[1.7] text-slate-light">
+          <p className="mt-4 border-l-2 border-gold/50 pl-4 text-[0.85rem] leading-[1.7] text-slate-light">
             The written reasoning for every exclusion is part of the shortlist,
             not something you have to ask for.
           </p>

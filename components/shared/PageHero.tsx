@@ -11,6 +11,7 @@ import { DiamondField } from "@/components/brand/Motif";
  */
 export function PageHero({
   eyebrow,
+  eyebrowTag,
   title,
   lead,
   crumb,
@@ -18,6 +19,8 @@ export function PageHero({
   className,
 }: {
   eyebrow: string;
+  /** Short qualifier shown as a tag beside the eyebrow, e.g. "Sample". */
+  eyebrowTag?: string;
   title: React.ReactNode;
   lead?: React.ReactNode;
   crumb: { name: string; path: string };
@@ -59,21 +62,30 @@ export function PageHero({
         <div
           className={cn(
             "mt-9 gap-12",
-            aside ? "grid lg:grid-cols-[1.25fr_0.75fr] lg:gap-16" : "",
+            aside
+              ? "grid lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16"
+              : "",
           )}
         >
           <div>
             <Reveal delay={0.06}>
-              <p className="eyebrow rule-lead text-gold-bright">{eyebrow}</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="eyebrow rule-lead text-gold-bright">{eyebrow}</p>
+                {eyebrowTag ? (
+                  <span className="rounded-sm border border-gold-bright/50 bg-gold-bright/10 px-2 py-0.5 font-mono text-[0.64rem] font-medium tracking-[0.16em] text-gold-bright uppercase">
+                    {eyebrowTag}
+                  </span>
+                ) : null}
+              </div>
             </Reveal>
             <Reveal delay={0.12}>
-              <h1 className="mt-5 max-w-[24ch] text-[clamp(1.95rem,4.3vw,3rem)] text-field-foreground">
+              <h1 className="mt-5 text-[clamp(1.95rem,4.3vw,3rem)] text-field-foreground">
                 {title}
               </h1>
             </Reveal>
             {lead ? (
               <Reveal delay={0.18}>
-                <p className="mt-6 max-w-[58ch] text-[1.0125rem] leading-[1.75] text-field-muted">
+                <p className="mt-6 text-[1.0125rem] leading-[1.75] text-field-muted">
                   {lead}
                 </p>
               </Reveal>

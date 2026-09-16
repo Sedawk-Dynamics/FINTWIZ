@@ -76,7 +76,7 @@ function AccordionContent({
       )}
       {...props}
     >
-      <div className={cn("max-w-[62ch] pr-10 pb-7 text-[0.95rem] text-slate", className)}>
+      <div className={cn("pr-10 pb-7 text-[0.95rem] text-slate", className)}>
         {children}
       </div>
     </AccordionPrimitive.Content>

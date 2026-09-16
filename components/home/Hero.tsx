@@ -21,14 +21,14 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <h1 className="mt-6 max-w-[23ch] text-[clamp(2.1rem,4.7vw,3.4rem)] text-field-foreground">
+            <h1 className="mt-6 text-[clamp(2.1rem,4.7vw,3.4rem)] text-field-foreground">
               {hero.headline}{" "}
               <span className="text-gold-bright">{hero.headlineAccent}</span>
             </h1>
           </Reveal>
 
           <Reveal delay={0.16}>
-            <p className="mt-7 max-w-[54ch] text-[1.0125rem] leading-[1.75] text-field-muted md:text-[1.075rem]">
+            <p className="mt-7 text-[1.0125rem] leading-[1.75] text-field-muted md:text-[1.075rem]">
               {hero.lead}
             </p>
           </Reveal>
@@ -50,7 +50,7 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={0.3}>
-            <p className="mt-8 max-w-[52ch] border-l-2 border-gold/50 pl-4 text-[0.8125rem] leading-[1.7] text-field-muted">
+            <p className="mt-8 border-l-2 border-gold/50 pl-4 text-[0.8125rem] leading-[1.7] text-field-muted">
               {site.legalName} is registered with {site.registration.authority}{" "}
               as a distributor of Portfolio Management Services under{" "}
               <span className="font-mono text-field-foreground tnum">
@@ -92,10 +92,10 @@ function ShortlistCard({ preview }: { preview: typeof managers }) {
             className="flex items-start justify-between gap-5 border-b border-field-border px-5 py-4 last:border-b-0"
           >
             <div className="min-w-0">
-              <p className="truncate text-[0.9rem] font-medium text-field-foreground">
+              <p className="text-[0.9rem] font-medium [overflow-wrap:anywhere] text-field-foreground">
                 {m.house}
               </p>
-              <p className="mt-0.5 truncate text-[0.78rem] text-field-muted">
+              <p className="mt-0.5 text-[0.78rem] [overflow-wrap:anywhere] text-field-muted">
                 {m.strategy}
               </p>
             </div>

@@ -61,7 +61,7 @@ export function SectionHeading({
   align = "left",
   onField = false,
   className,
-  maxWidth = "max-w-[46rem]",
+  maxWidth = "max-w-none",
 }: {
   eyebrow?: string;
   /** Chapter number, e.g. "01". Renders the eyebrow as a chapter marker. */
@@ -171,7 +171,7 @@ export function RegBadge({
       )}
     >
       {label ? (
-        <span className="text-[0.62rem] tracking-[0.14em] uppercase opacity-70">
+        <span className="text-[0.62rem] tracking-[0.14em] uppercase">
           {label}
         </span>
       ) : null}

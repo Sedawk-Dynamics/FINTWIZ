@@ -1,7 +1,8 @@
 import { PageHero } from "@/components/shared/PageHero";
+import { HeroFacts } from "@/components/shared/HeroFacts";
 import { LegalDocument } from "@/components/shared/LegalDocument";
 import { pageMetadata } from "@/lib/seo";
-import { privacySections } from "@/lib/content/legal";
+import { LEGAL_UPDATED, privacySections } from "@/lib/content/legal";
 import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
@@ -19,6 +20,17 @@ export default function PrivacyPolicyPage() {
         title="What we collect, why, and how to make us delete it."
         lead={`We collect only what you send us through the enquiry form. This page says exactly what that is, how long we keep it, and how to exercise your rights under the Digital Personal Data Protection Act, 2023.`}
         crumb={{ name: "Privacy Policy", path: "/privacy-policy" }}
+        aside={
+          <HeroFacts
+            title="This policy at a glance"
+            facts={[
+              { term: "Last updated", value: LEGAL_UPDATED },
+              { term: "Sections", value: String(privacySections.length) },
+              { term: "Governing law", value: "DPDP Act, 2023" },
+              { term: "Grievance Officer", value: site.officer.name, note: site.contact.grievance },
+            ]}
+          />
+        }
       />
 
       <LegalDocument sections={privacySections}>

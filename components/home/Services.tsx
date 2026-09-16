@@ -52,7 +52,7 @@ export function Services() {
                 <h3 className="mt-6 text-[1.15rem] text-field-foreground">
                   {service.title}
                 </h3>
-                <p className="mt-3 max-w-[46ch] text-[0.9rem] leading-[1.72] text-field-muted">
+                <p className="mt-3 text-[0.9rem] leading-[1.72] text-field-muted">
                   {service.body}
                 </p>
               </RevealItem>

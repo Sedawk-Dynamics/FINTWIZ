@@ -37,7 +37,7 @@ export function StatBar() {
             >
               {stat.value}
             </p>
-            <p className="max-w-[26ch] text-[0.8rem] leading-[1.6] text-slate">
+            <p className="text-[0.8rem] leading-[1.6] text-slate">
               {stat.label}
             </p>
           </RevealItem>

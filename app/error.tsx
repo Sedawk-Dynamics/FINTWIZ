@@ -21,10 +21,10 @@ export default function GlobalError({
         <p className="font-mono text-[0.72rem] tracking-[0.18em] text-gold-bright uppercase">
           Something went wrong
         </p>
-        <h1 className="mt-6 max-w-[22ch] text-[clamp(2rem,4.5vw,3rem)] text-field-foreground">
+        <h1 className="mt-6 text-[clamp(2rem,4.5vw,3rem)] text-field-foreground">
           This page failed to load.
         </h1>
-        <p className="mt-5 max-w-[52ch] text-[1.0125rem] leading-[1.72] text-field-muted">
+        <p className="mt-5 text-[1.0125rem] leading-[1.72] text-field-muted">
           The problem is at our end, not yours. Try again, and if it keeps
           happening please tell us at{" "}
           <a

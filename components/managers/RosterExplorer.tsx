@@ -55,7 +55,7 @@ export function RosterExplorer() {
                 )}
               >
                 {option}
-                <span className="ml-2 font-mono text-[0.68rem] opacity-60 tnum">
+                <span className="ml-2 font-mono text-[0.68rem] tnum">
                   {option === "All"
                     ? managers.length
                     : managers.filter((m) => m.category === option).length}

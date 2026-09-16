@@ -175,8 +175,17 @@ the How It Works timeline, which is there because it carries meaning. No
 parallax, no pinned sections, no scroll hijacking. Everything respects
 `prefers-reduced-motion`.
 
-Three things to preserve if you touch this layer:
+Four things to preserve if you touch this layer:
 
+- **Never branch rendered output on `useReducedMotion()`.** The hook reads the
+  OS setting on the browser's first render; the server cannot. Rendering
+  different markup when it returns true fails hydration for every
+  reduced-motion visitor, and React keeps the server's `opacity:0` inline
+  styles, so the page renders blank. This happened, and was measured: 21 of 34
+  sections invisible. `components/shared/MotionProvider.tsx` sets
+  `reducedMotion="user"` site-wide instead, and anything that should disappear
+  uses the CSS `motion-reduce:hidden` utility. Using the hook for transition
+  timing only is safe, because timing is never rendered.
 - **Never gate content on an animation completing.** `AnimatePresence` with
   `mode="wait"` strands content if an exit never resolves. The roster view
   toggle used to do this and silently stopped working.
@@ -209,12 +218,33 @@ encoding market-cap breadth, concentration and volatility band. Every manager
 produces a different silhouette. It encodes real stated attributes, not a hash,
 and carries no performance information.
 
+### Layout rules from client review
+
+- **No dead space beside text.** Section headings and leads span the available
+  width (no `max-w-[..ch]` caps), and headings use `text-wrap: pretty` rather
+  than `balance`, which deliberately shortened lines.
+- **Two-column rows end level.** A photo beside text uses
+  `components/shared/FillFigure.tsx`, which fills the row height. Cards beside
+  text stretch with `h-full`, and the contact form's message box absorbs any
+  remaining difference on desktop.
+- **No empty half-screens.** Inner-page heroes carry a `HeroFacts` panel, and
+  the closing `CtaBand` carries a right-hand panel from
+  `components/visuals/CtaVisuals.tsx` (process, sample shortlist, or questions).
+- **Every button must do something.** Consultation buttons go to
+  `/contact#enquiry`, never to the page they sit on.
+
 ### The diagrams (`components/visuals/`)
 
 `RoutingDiagram` draws the core regulatory point: the shortlist and paperwork
 run through us, the capital goes straight to the manager. `FeeFlow` draws the
 payment that does not exist, the one from you to us. `AccountStructure`
 contrasts a pooled vehicle with a PMS. All original, all built from tokens.
+
+Node widths in the two SVG diagrams leave at least 18 units either side of the
+longest line. The SVGs only render from the `lg` breakpoint; below it they are
+replaced by `StackedFlow`, real text in a vertical layout, because a scaled SVG
+takes its labels under 8px on a phone. Dashed routes only fade in: Motion's
+`pathLength` animation rewrites `stroke-dasharray` and would turn them solid.
 
 ---
 

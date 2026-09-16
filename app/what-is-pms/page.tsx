@@ -1,11 +1,12 @@
-import Image from "next/image";
 import { Check, X } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
+import { FillFigure } from "@/components/shared/FillFigure";
 import { SectionHeading, DisclosureNote, RegBadge } from "@/components/shared/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/shared/Reveal";
 import { AccountStructure } from "@/components/visuals/AccountStructure";
 import { Faq } from "@/components/shared/Faq";
 import { CtaBand } from "@/components/shared/CtaBand";
+import { ShortlistFunnel } from "@/components/visuals/CtaVisuals";
 import { pageMetadata } from "@/lib/seo";
 import { site, faqs } from "@/lib/site";
 import { inlineDisclosures } from "@/lib/compliance";
@@ -80,7 +81,7 @@ export default function WhatIsPmsPage() {
                 {definition.body.map((paragraph) => (
                   <p
                     key={paragraph.slice(0, 32)}
-                    className="max-w-[62ch] text-[1rem] leading-[1.78] text-slate"
+                    className="text-[1rem] leading-[1.78] text-slate"
                   >
                     {paragraph}
                   </p>
@@ -91,22 +92,14 @@ export default function WhatIsPmsPage() {
               </Reveal>
             </div>
 
-            <Reveal delay={0.1}>
-              <figure className="overflow-hidden rounded-md border border-border">
-                <Image
-                  src={photography.exchange.src}
-                  alt={photography.exchange.alt}
-                  width={1024}
-                  height={768}
-                  sizes="(min-width: 1024px) 44vw, 100vw"
-                  className="h-full w-full object-cover"
-                />
-                <figcaption className="border-t border-border bg-card px-5 py-4 text-[0.78rem] leading-relaxed text-slate">
-                  Phiroze Jeejeebhoy Towers, Mumbai. Portfolio managers are
-                  registered and supervised by SEBI under a separate set of
-                  regulations from distributors like us.
-                </figcaption>
-              </figure>
+            <Reveal delay={0.1} className="h-full">
+              <FillFigure
+                src={photography.exchange.src}
+                alt={photography.exchange.alt}
+                sizes="(min-width: 1024px) 44vw, 100vw"
+                objectPosition="40% center"
+                caption="Phiroze Jeejeebhoy Towers, home of BSE, Mumbai. Portfolio managers are registered with SEBI under the Portfolio Managers Regulations, 2020. Distributors like us are registered with APMI."
+              />
             </Reveal>
           </div>
         </div>
@@ -190,7 +183,7 @@ export default function WhatIsPmsPage() {
         <div className="container-page section-y">
           <SectionHeading
             eyebrow="What it costs"
-            title="Four charges, all of them the manager's, none of them ours."
+            title="Four charges, all of them for the managers, none of them for us."
             lead="You do not pay Fintwiz Wealth a fee. These are the charges levied by the portfolio manager inside your account, and every one of them is set out in their disclosure document before you sign."
           />
 
@@ -228,7 +221,8 @@ export default function WhatIsPmsPage() {
         primaryLabel="View the roster"
         primaryHref="/portfolio-managers"
         secondaryLabel="Talk it through"
-        secondaryHref="/contact"
+        secondaryHref="/contact#enquiry"
+        aside={<ShortlistFunnel />}
       />
     </>
   );

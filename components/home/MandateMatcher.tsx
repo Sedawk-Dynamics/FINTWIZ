@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { BrandDiamond } from "@/components/brand/Motif";
 import { managers, type PortfolioManager } from "@/lib/managers";
 import { site } from "@/lib/site";
+import { sampleRosterNote } from "@/lib/compliance";
+import { SampleTag } from "@/components/shared/SampleTag";
 import { cn } from "@/lib/utils";
 
 type AxisKey = "cap" | "construction" | "volatility";
@@ -27,12 +29,19 @@ const CAP_OPTIONS: Option<"any" | "large" | "broad">[] = [
   },
 ];
 
-const CONSTRUCTION_OPTIONS: Option<"any" | "Concentrated" | "Diversified">[] = [
+const CONSTRUCTION_OPTIONS: Option<
+  "any" | "Concentrated" | "Core-satellite" | "Diversified"
+>[] = [
   { value: "any", label: "No preference" },
   {
     value: "Concentrated",
     label: "Concentrated",
     hint: "Fewer, larger positions",
+  },
+  {
+    value: "Core-satellite",
+    label: "Core-satellite",
+    hint: "A core, plus satellites",
   },
   { value: "Diversified", label: "Diversified", hint: "Spread more widely" },
 ];
@@ -73,9 +82,13 @@ function exclusionReason(
     mandate.construction !== "any" &&
     manager.construction !== mandate.construction
   ) {
-    return manager.construction === "Concentrated"
-      ? "Runs a more concentrated book"
-      : "Runs a more diversified book";
+    if (manager.construction === "Concentrated") {
+      return "Runs a more concentrated book";
+    }
+    if (manager.construction === "Core-satellite") {
+      return "Runs a core and satellite book";
+    }
+    return "Runs a more diversified book";
   }
   if (mandate.volatility !== "any" && manager.risk !== mandate.volatility) {
     return manager.risk === "Aggressive"
@@ -135,52 +148,75 @@ export function MandateMatcher() {
           />
         </div>
 
-        <div className="border-t border-field-border pt-6 lg:mt-auto">
-          <MandateProfile mandate={mandate} />
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-            <p className="font-mono text-[0.66rem] tracking-[0.1em] text-field-muted uppercase">
-              Same scale as each manager card
+        {/* The summary group is pinned to the bottom so both columns end level
+            however long the result list gets. The note above it means the
+            slack lands between two blocks rather than under a lone heading. */}
+        <div className="lg:mt-auto">
+          <div className="rounded-md border border-field-border bg-white/[0.02] px-4 py-3.5">
+            <p className="font-mono text-[0.64rem] tracking-[0.14em] text-gold-bright uppercase">
+              Why these three
             </p>
-            <button
-              type="button"
-              onClick={() => setMandate(DEFAULT_MANDATE)}
-              disabled={isDefault}
-              className={cn(
-                "inline-flex items-center gap-2 rounded-md border border-field-border px-3 py-1.5",
-                "font-mono text-[0.7rem] tracking-[0.08em] text-field-muted uppercase",
-                "transition-colors duration-200 enabled:hover:border-field-foreground enabled:hover:text-field-foreground",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
-                "disabled:cursor-default disabled:opacity-40",
-              )}
-            >
-              <RotateCcw aria-hidden="true" className="size-3" />
-              Reset mandate
-            </button>
+            <p className="mt-2.5 text-[0.8rem] leading-[1.7] text-field-muted">
+              Cap exposure, construction and volatility are stated by the
+              manager in their own disclosure document and do not change month
+              to month. Anything finer would be a judgement we are not
+              registered to make.
+            </p>
+          </div>
+
+          <div className="mt-8 border-t border-field-border pt-6">
+            <MandateProfile mandate={mandate} />
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+              <p className="font-mono text-[0.66rem] tracking-[0.1em] text-field-muted uppercase">
+                Same scale as each manager card
+              </p>
+              <button
+                type="button"
+                onClick={() => setMandate(DEFAULT_MANDATE)}
+                disabled={isDefault}
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-md border border-field-border px-3 py-1.5",
+                  "font-mono text-[0.7rem] tracking-[0.08em] text-field-muted uppercase",
+                  "transition-colors duration-200 enabled:hover:border-field-foreground enabled:hover:text-field-foreground",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "disabled:cursor-default disabled:opacity-40",
+                )}
+              >
+                <RotateCcw aria-hidden="true" className="size-3" />
+                Reset mandate
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Result */}
       <div className="flex flex-col rounded-md border border-field-border bg-white/[0.02] p-5 md:p-7">
-        <div className="flex items-baseline justify-between gap-4 border-b border-field-border pb-4">
-          <p
-            aria-live="polite"
-            className="font-mono text-[0.72rem] tracking-[0.1em] text-field-muted uppercase tnum"
-          >
-            {fitting.length} of {managers.length} empanelled{" "}
-            {fitting.length === 1 ? "manager fits" : "managers fit"}
-          </p>
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-field-border pb-4">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+            <SampleTag onField />
+            <p
+              aria-live="polite"
+              className="font-mono text-[0.72rem] tracking-[0.1em] text-field-muted uppercase tnum"
+            >
+              {fitting.length} of {managers.length}{" "}
+              {fitting.length === 1 ? "manager fits" : "managers fit"}
+            </p>
+          </div>
           <BrandDiamond size={11} className="shrink-0 text-gold-bright/60" />
         </div>
 
-        <ul className="mt-2">
+        {/* The list takes the panel's spare height and the rows share it
+            equally, so the slack from the taller column beside it turns into
+            row spacing instead of one dead band above the buttons. */}
+        <ul className="mt-2 flex flex-1 flex-col">
           {evaluated.map(({ manager, reason }) => (
             // Exclusion is shown with colour, a strike-through and the X mark,
             // never by fading the row: the reason line is the information this
             // tool exists to give, so it has to stay readable.
             <li
               key={manager.id}
-              className="border-b border-field-border last:border-b-0"
+              className="flex flex-1 flex-col justify-center border-b border-field-border last:border-b-0"
             >
               <div className="flex items-start gap-4 py-4">
                 <span
@@ -252,7 +288,7 @@ export function MandateMatcher() {
           </div>
         ) : null}
 
-        <div className="mt-8 lg:mt-auto lg:pt-8">
+        <div className="mt-8 lg:pt-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Button asChild variant="field">
               <Link href="/contact#enquiry">
@@ -266,12 +302,10 @@ export function MandateMatcher() {
           </div>
 
           <p className="mt-6 border-t border-field-border pt-5 text-[0.75rem] leading-[1.7] text-field-muted">
-            This filters our empanelled roster against criteria you choose. It
-            is not investment advice, not a recommendation, and it uses no
-            performance data. Construction and volatility bands describe how
-            each strategy is built, drawn from the manager&apos;s own stated
-            approach. A real shortlist from {site.brand} comes with the written
-            reasoning for every inclusion and every exclusion.
+            {/* One expression rather than text interleaved with expressions:
+                JSX drops the space between `{expr}` and the sentence that
+                follows it, and a formatter will keep undoing a `{" "}` fix. */}
+            {`${sampleRosterNote} This tool filters that roster against criteria you choose. It is not investment advice, not a recommendation, and it uses no performance data. Construction and volatility bands describe how each strategy is built, drawn from the manager's own stated approach. A real shortlist from ${site.brand} comes with the written reasoning for every inclusion and every exclusion.`}
           </p>
         </div>
       </div>
@@ -292,12 +326,16 @@ function MandateProfile({ mandate }: { mandate: Mandate }) {
     },
     {
       label: "Concentration",
+      // Same three-step scale as the glyph on each manager card, so the two
+      // can be read against each other.
       level:
         mandate.construction === "any"
           ? null
           : mandate.construction === "Concentrated"
             ? 3
-            : 1,
+            : mandate.construction === "Core-satellite"
+              ? 2
+              : 1,
     },
     {
       label: "Volatility",

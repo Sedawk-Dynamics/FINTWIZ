@@ -120,9 +120,20 @@ const SAMPLE_ROSTER = [
   { serial: "PM 002", kept: false, reason: "Too concentrated" },
   { serial: "PM 003", kept: true, reason: null },
   { serial: "PM 004", kept: false, reason: "Wrong cap range" },
+  { serial: "PM 005", kept: true, reason: null },
 ] as const;
 
 const CRITERIA = ["Cap exposure", "Construction", "Volatility"] as const;
+
+/**
+ * Both rows of the funnel share one column count so PM 001 always sits above
+ * PM 001. The count is driven by how wide the panel actually is, not by the
+ * viewport alone: this panel is full width on a phone but a narrow aside from
+ * lg, and it widens again at xl. Five columns in the lg aside leaves the word
+ * "concentrated" wider than the cell it sits in.
+ */
+const FUNNEL_GRID =
+  "mt-3 grid gap-2 grid-cols-2 min-[420px]:grid-cols-3 sm:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5";
 
 /** A roster narrowed to a shortlist, with the exclusions shown. */
 export function ShortlistFunnel({ className }: { className?: string }) {
@@ -134,9 +145,9 @@ export function ShortlistFunnel({ className }: { className?: string }) {
       footer="Every manager left out comes with a written reason. Serial numbers only: this is an illustration, not a recommendation."
     >
       <p className="font-mono text-[0.66rem] tracking-[0.12em] text-field-muted uppercase">
-        Empanelled roster
+        The roster
       </p>
-      <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <ul className={FUNNEL_GRID}>
         {SAMPLE_ROSTER.map((pm) => (
           <li
             key={pm.serial}
@@ -170,7 +181,7 @@ export function ShortlistFunnel({ className }: { className?: string }) {
       <p className="font-mono text-[0.66rem] tracking-[0.12em] text-field-muted uppercase">
         Your shortlist
       </p>
-      <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <ul className={FUNNEL_GRID}>
         {SAMPLE_ROSTER.map((pm, index) => (
           <motion.li
             key={pm.serial}

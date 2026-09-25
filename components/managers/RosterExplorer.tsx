@@ -2,7 +2,10 @@
 
 import * as React from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, LayoutGrid, Rows3 } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, LayoutGrid, Rows3 } from "lucide-react";
+import { SampleTag } from "@/components/shared/SampleTag";
+import { BrandDiamond } from "@/components/brand/Motif";
 import { ManagerCard } from "./ManagerCard";
 import { managers, activeCategories, type StrategyCategory } from "@/lib/managers";
 import { cn } from "@/lib/utils";
@@ -15,7 +18,7 @@ type View = "cards" | "table";
  *
  * The table exists because this is a comparison decision and a card grid is a
  * poor comparison surface. Neither view sorts by anything that could be read
- * as a ranking: the order is the empanelment order in lib/managers.ts.
+ * as a ranking: the order is the listing order in lib/managers.ts.
  */
 export function RosterExplorer() {
   const [category, setCategory] = React.useState<Category>("All");
@@ -85,10 +88,16 @@ export function RosterExplorer() {
         </div>
       </div>
 
-      <p aria-live="polite" className="mt-5 font-mono text-[0.72rem] tracking-[0.06em] text-slate uppercase tnum">
-        Showing {filtered.length} of {managers.length} empanelled{" "}
-        {managers.length === 1 ? "manager" : "managers"}
-      </p>
+      <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <SampleTag />
+        <p
+          aria-live="polite"
+          className="font-mono text-[0.72rem] tracking-[0.06em] text-slate uppercase tnum"
+        >
+          Showing {filtered.length} of {managers.length}{" "}
+          {managers.length === 1 ? "manager" : "managers"}
+        </p>
+      </div>
 
       {/*
         Deliberately not wrapped in AnimatePresence. An exit animation would
@@ -106,16 +115,74 @@ export function RosterExplorer() {
         className="mt-6"
       >
         {view === "cards" ? (
+          // The closing tile is part of the grid rather than a band below it,
+          // so the last row is never left with a dead cell beside the cards.
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {filtered.map((manager) => (
               <ManagerCard key={manager.id} manager={manager} />
             ))}
+            <ShortlistTile />
           </div>
         ) : (
           <ComparisonTable rows={filtered} />
         )}
       </motion.div>
     </div>
+  );
+}
+
+/** The criteria a shortlist request is filtered on, matching the home matcher. */
+const SHORTLIST_AXES = [
+  "Market cap exposure",
+  "Portfolio construction",
+  "Volatility band",
+] as const;
+
+/** Closing cell of the card grid: the next step, and it fills the last row. */
+function ShortlistTile() {
+  return (
+    <Link
+      href="/contact#enquiry"
+      className={cn(
+        "group flex h-full flex-col justify-between rounded-md border border-dashed border-border-strong bg-card/40 p-6 md:p-7",
+        "transition-colors duration-300 hover:border-azure hover:bg-card",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+      )}
+    >
+      <div>
+        <span className="font-mono text-[0.66rem] tracking-[0.14em] text-gold-deep uppercase">
+          Next step
+        </span>
+        <h3 className="mt-5 text-[1.2rem] leading-tight text-ink">
+          Too many to choose from?
+        </h3>
+        <p className="mt-4 text-[0.875rem] leading-[1.7] text-slate">
+          Tell us the mandate and we will come back with two or three that fit
+          it, with the written reasoning for every manager we left out.
+        </p>
+
+        {/* The three axes we actually filter on, so the tile states the method
+            instead of leaving a headline above an empty card. */}
+        <ul className="mt-6 border-t border-border pt-4">
+          {SHORTLIST_AXES.map((axis) => (
+            <li
+              key={axis}
+              className="flex items-center gap-2.5 border-b border-border/70 py-2 text-[0.82rem] text-slate last:border-b-0"
+            >
+              <BrandDiamond size={9} className="shrink-0 text-gold-deep" />
+              {axis}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <span className="mt-8 inline-flex items-center gap-1.5 text-[0.85rem] font-medium text-azure-bright">
+        Request a shortlist
+        <ArrowRight
+          aria-hidden="true"
+          className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
+        />
+      </span>
+    </Link>
   );
 }
 

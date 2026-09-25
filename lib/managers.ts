@@ -13,6 +13,12 @@
  * 3. `consent` records whether signed empanelment and written permission to
  *    display the manager's name exist. It is internal, never rendered.
  *
+ * 4. No manager below is a confirmed empanelled partner yet. The roster is
+ *    published as an illustration of the format, and every surface that
+ *    renders it carries `sampleRosterNote` from lib/compliance.ts plus a
+ *    "Sample" tag. Both may only be removed once `consent` is true for every
+ *    entry.
+ *
  * TODO(client): registration numbers and disclosure URLs below were carried
  * over from the supplied visual mockup, which sourced them from public SEBI
  * records. Verify each one against the signed empanelment agreement, and
@@ -32,8 +38,13 @@ export type RiskBand = "Conservative" | "Balanced" | "Aggressive";
 /**
  * How the manager constructs the book, taken from their own stated approach
  * rather than inferred from holdings. Used by the mandate filter.
+ *
+ * "Core-satellite" is the middle band: a diversified core with a smaller set
+ * of higher-conviction satellite positions around it. It is a real third
+ * answer rather than a rounding of the other two, and the mandate glyph shows
+ * it at 2 of 3 on the concentration axis.
  */
-export type Construction = "Concentrated" | "Diversified";
+export type Construction = "Concentrated" | "Core-satellite" | "Diversified";
 
 /**
  * A figure the portfolio manager has themselves disclosed.
@@ -63,6 +74,8 @@ export type PortfolioManager = {
   attributes: readonly string[];
   sebiRegNo: string;
   disclosureUrl: string;
+  /** Recently added to the roster. Renders a NEW marker on the card. */
+  isNew?: boolean;
   /** Empty until the manager publishes a figure we can date and link. */
   disclosedFigures: readonly DisclosedFigure[];
   consent: {
@@ -135,6 +148,27 @@ export const managers: readonly PortfolioManager[] = [
     attributes: ["High conviction", "Concentrated positions", "Growth-led selection"],
     sebiRegNo: "INP000000365",
     disclosureUrl: "https://www.alchemycapital.com",
+    disclosedFigures: [],
+    consent: { empanelmentSigned: false, displayConsentOnFile: false },
+  },
+  {
+    id: "buoyant-opportunities",
+    serial: "PM 005",
+    house: "Buoyant Capital",
+    strategy: "Opportunities PMS",
+    category: "Multi Cap",
+    risk: "Balanced",
+    construction: "Core-satellite",
+    summary:
+      "A core-satellite discretionary equity strategy benchmarked against the BSE 500 TRI, built for investors with a 3+ year holding horizon.",
+    attributes: [
+      "Core-satellite construction",
+      "Benchmarked to BSE 500 TRI",
+      "Long-term horizon (3+ years)",
+    ],
+    sebiRegNo: "INP000005000",
+    disclosureUrl: "https://buoyantcap.com",
+    isNew: true,
     disclosedFigures: [],
     consent: { empanelmentSigned: false, displayConsentOnFile: false },
   },

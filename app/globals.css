@@ -51,6 +51,9 @@
   --gold: light-dark(#b8860f, #e0b64a);
   --gold-bright: light-dark(#fec21a, #fecb3a);
   --gold-deep: light-dark(#7a5504, #d4a83c);
+  /* Opaque on purpose: the NEW marker straddles a card border, so it cannot
+     be a translucent tint or the border shows through it. */
+  --gold-chip: light-dark(#fbf4e2, #2b2416);
   --azure: light-dark(#0a5f92, #8fd4f5);
   --azure-bright: light-dark(#0f6aa3, #5cc4f0);
   --azure-soft: light-dark(#e8f4fb, #0d2a3d);
@@ -150,6 +153,7 @@
   --color-gold: var(--gold);
   --color-gold-bright: var(--gold-bright);
   --color-gold-deep: var(--gold-deep);
+  --color-gold-chip: var(--gold-chip);
   --color-azure: var(--azure);
   --color-azure-bright: var(--azure-bright);
   --color-azure-soft: var(--azure-soft);

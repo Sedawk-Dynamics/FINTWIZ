@@ -122,7 +122,7 @@ export const termsSections: readonly LegalSection[] = [
     id: "nature-of-site",
     title: "What this site is",
     body: [
-      "This website is informational. It explains what Portfolio Management Services are, lists the SEBI-registered portfolio managers we have empanelled, and describes the process by which we help you select and onboard with one of them.",
+      "This website is informational. It explains what Portfolio Management Services are, lists SEBI-registered portfolio managers by way of illustration, and describes the process by which we help you select and onboard with one of them. Managers shown on the roster are not yet confirmed as empanelled partners.",
       `${site.brand} is a distributor. We do not manage portfolios, we do not hold client funds or securities, and we have no discretion over any client account.`,
     ],
   },

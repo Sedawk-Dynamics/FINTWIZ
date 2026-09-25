@@ -18,12 +18,36 @@ export function ManagerCard({
   return (
     <article
       className={cn(
-        "group flex h-full flex-col rounded-md border border-border bg-card p-6 md:p-7",
+        // `relative` and the top margin exist for the NEW marker, which sits
+        // on the top border rather than inside the card so it does not push
+        // the serial row down on the cards that do not carry one.
+        // Tighter padding at xl: that is where five cards share one row and
+        // every pixel of content width matters.
+        "group relative flex h-full flex-col rounded-md border bg-card p-6 md:p-7 xl:p-5 2xl:p-6",
         "transition-[border-color,box-shadow,transform] duration-300 ease-out",
-        "hover:-translate-y-0.5 hover:border-border-strong hover:shadow-lift",
+        "hover:-translate-y-0.5 hover:shadow-lift",
+        manager.isNew
+          ? "mt-2 border-gold/60 hover:border-gold"
+          : "border-border hover:border-border-strong",
         className,
       )}
     >
+      {/* The long form is a sibling, not a child of the chip: nesting it made
+          the chip's text content far wider than the chip itself, which reads
+          as an overflow to any layout check measuring the two against each
+          other. The chip shows the short word and is hidden from the tree. */}
+      {manager.isNew ? (
+        <>
+          <span
+            aria-hidden="true"
+            className="absolute -top-2 left-5 rounded-sm border border-gold/60 bg-gold-chip px-2 py-0.5 font-mono text-[0.6rem] font-medium tracking-[0.16em] text-gold-deep uppercase"
+          >
+            New
+          </span>
+          <span className="sr-only">Recently added to the roster.</span>
+        </>
+      ) : null}
+
       <div className="flex items-center justify-between gap-4">
         <span className="font-mono text-[0.66rem] tracking-[0.14em] text-gold-deep uppercase tnum">
           {manager.serial}
@@ -82,8 +106,11 @@ export function ManagerCard({
       ) : null}
 
       <div className="mt-auto pt-6">
-        <div className="flex items-baseline justify-between gap-4 border-t border-border pt-4">
-          <span className="font-mono text-[0.7rem] text-slate tnum">
+        {/* The registration is one token and never breaks across lines: a
+            half-wrapped SEBI number is unreadable and looks like a typo. When
+            the card is too narrow for both, the risk band drops below it. */}
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-t border-border pt-4">
+          <span className="font-mono text-[0.7rem] whitespace-nowrap text-slate tnum">
             SEBI {manager.sebiRegNo}
           </span>
           <span className="font-mono text-[0.66rem] tracking-[0.08em] text-slate-light uppercase">

@@ -53,6 +53,12 @@ runs as the first step of `npm run build`.
    type.
 4. **Distributor, never manager.** No copy may imply Fintwiz Wealth manages,
    holds or has discretion over client money.
+5. **The roster is a sample until consent is on file.** No manager in
+   `lib/managers.ts` is a confirmed empanelled partner. Every surface that
+   names one carries a `SampleTag` and the `sampleRosterNote` sentence from
+   `lib/compliance.ts`, and no copy anywhere asserts that a listed manager is
+   empanelled. Both come off only when `consent.empanelmentSigned` and
+   `consent.displayConsentOnFile` are true for every entry.
 
 House style, also enforced: no pill-shaped buttons (max radius is the 3px
 `--radius` token), no emoji as iconography (lucide only), no em dashes in copy.
@@ -214,7 +220,11 @@ approach, and the disclosure under it says exactly that.
 ### The mandate glyph (`components/managers/MandateGlyph.tsx`)
 
 A compact signature on each manager card: three ticks inside the brand diamond
-encoding market-cap breadth, concentration and volatility band. Every manager
+encoding market-cap breadth, concentration and volatility band. Concentration
+reads off `construction`, which has three bands rather than two: `Concentrated`
+is 3 of 3, `Core-satellite` 2 of 3, `Diversified` 1 of 3. The mandate matcher
+offers the same three, so a visitor's profile and a manager's glyph are drawn
+on one scale. Every manager
 produces a different silhouette. It encodes real stated attributes, not a hash,
 and carries no performance information.
 
@@ -299,7 +309,16 @@ Also listed in code as `PENDING_CLIENT_DATA` in `lib/site.ts`.
 5. **Signed empanelment and written display consent for every manager** in
    `lib/managers.ts`. Registration numbers and disclosure URLs were carried over
    from the supplied mockup, which sourced them from public SEBI records. Verify
-   each against the signed agreement before launch.
+   each against the signed agreement before launch. Until then the roster is
+   labelled a sample throughout, which is rule 5 above.
+   A manager with `isNew: true` carries a NEW marker on its card; clear the
+   flag once the addition is no longer news.
+   PM 005 (Buoyant Capital, `INP000005000`) was supplied by the client in a
+   review note. The client's text called the house "Buoyant Capital Managers";
+   the entity registered with SEBI under that number is Buoyant Capital Private
+   Limited and its own site brands it "Buoyant Capital", which is what the site
+   shows. Its `disclosureUrl` is the house site root because no direct
+   disclosure-document link was supplied.
 6. **Actual commission bands per manager.** The Fees page currently says they are
    being finalised rather than inventing a number.
 7. **Compliance sign-off on all risk and disclosure wording**, including the

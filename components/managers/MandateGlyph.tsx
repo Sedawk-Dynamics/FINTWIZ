@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
  *
  * Three ticks inside the brand diamond, encoding market-cap breadth, how
  * concentrated the book is, and the volatility band. Every manager on the
- * roster produces a different silhouette, so the cards stop being four
+ * roster produces a different silhouette, so the cards stop being a row of
  * identical rectangles.
  *
  * It encodes real, stated strategy characteristics. It is NOT derived from a
@@ -17,7 +17,12 @@ import { cn } from "@/lib/utils";
 function levels(manager: PortfolioManager) {
   const capBreadth =
     manager.category === "Large Cap" ? 1 : manager.category === "All Cap" ? 3 : 2;
-  const concentration = manager.construction === "Concentrated" ? 3 : 1;
+  const concentration =
+    manager.construction === "Concentrated"
+      ? 3
+      : manager.construction === "Core-satellite"
+        ? 2
+        : 1;
   const volatility =
     manager.risk === "Aggressive" ? 3 : manager.risk === "Balanced" ? 2 : 1;
 

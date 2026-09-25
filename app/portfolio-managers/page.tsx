@@ -11,12 +11,12 @@ import { ShortlistFunnel } from "@/components/visuals/CtaVisuals";
 import { pageMetadata } from "@/lib/seo";
 import { managers } from "@/lib/managers";
 import { site } from "@/lib/site";
-import { inlineDisclosures } from "@/lib/compliance";
+import { inlineDisclosures, sampleRosterNote } from "@/lib/compliance";
 
 export const metadata = pageMetadata({
   title: "Our Portfolio Managers",
   description:
-    "The SEBI-registered portfolio managers empanelled with Fintwiz Wealth, with each manager's strategy, category, registration number and a link to their own SEBI-format disclosure document.",
+    "The SEBI-registered portfolio managers shown on the Fintwiz Wealth roster, with each manager's strategy, category, registration number and a link to their own SEBI-format disclosure document.",
   path: "/portfolio-managers",
   keywords: [
     "empanelled portfolio managers",
@@ -30,7 +30,7 @@ const principles = [
   {
     icon: ListFilter,
     title: "Order is not ranking",
-    body: "The roster is listed in empanelment order. We do not rank managers, because a ranking implies a recommendation and that is not a service we are registered to provide.",
+    body: "The roster is listed in no order of merit. We do not rank managers, because a ranking implies a recommendation and that is not a service we are registered to provide.",
   },
   {
     icon: ScrollText,
@@ -53,14 +53,14 @@ export default function PortfolioManagersPage() {
         eyebrow="The roster"
         eyebrowTag="Sample"
         title="Empanelled managers, and the documents behind them."
-        lead={`${managers.length} SEBI-registered portfolio managers are currently empanelled with ${site.brand}. Compare them on strategy and mandate, then read each manager's own disclosure document before you decide.`}
+        lead={`${managers.length} SEBI-registered portfolio managers are shown on the ${site.brand} roster. ${sampleRosterNote} Compare them on strategy and mandate, then read each manager's own disclosure document before you decide.`}
         crumb={{ name: "Portfolio Managers", path: "/portfolio-managers" }}
         aside={
           <HeroFacts
             title="Roster at a glance"
             tag="Sample"
             facts={[
-              { term: "Empanelled managers", value: String(managers.length), note: "Listed in empanelment order" },
+              { term: "Managers shown", value: String(managers.length), note: "Listed in no order of merit" },
               { term: "Strategy categories", value: String(rosterCategories.length), note: rosterCategories.join(", ") },
               { term: "Each manager registered with", value: "SEBI", note: "Number shown on every entry" },
               { term: "Figures written by us", value: "None", note: "Manager-disclosed only" },
@@ -131,7 +131,7 @@ export default function PortfolioManagersPage() {
 
       <CtaBand
         eyebrow="Narrowing it down"
-        title="Four managers? Still too many."
+        title="A whole roster is still not a shortlist."
         lead="Tell us the mandate and we will come back with two or three that fit it, along with the written reasoning for every manager we left out."
         primaryLabel="Request a shortlist"
         primaryHref="/contact#enquiry"

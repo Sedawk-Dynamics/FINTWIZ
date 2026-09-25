@@ -2,6 +2,7 @@ import * as React from "react";
 import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
+import { SampleTag } from "./SampleTag";
 
 /**
  * Section label.
@@ -55,6 +56,7 @@ export function Eyebrow({
 
 export function SectionHeading({
   eyebrow,
+  eyebrowTag,
   index,
   title,
   lead,
@@ -64,6 +66,8 @@ export function SectionHeading({
   maxWidth = "max-w-none",
 }: {
   eyebrow?: string;
+  /** Short qualifier shown beside the eyebrow, e.g. "Sample". */
+  eyebrowTag?: string;
   /** Chapter number, e.g. "01". Renders the eyebrow as a chapter marker. */
   index?: string;
   title: React.ReactNode;
@@ -82,13 +86,19 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? (
-        <Eyebrow
-          onField={onField}
-          index={index}
-          className={cn(align === "center" && "flex justify-center")}
+        <div
+          className={cn(
+            "flex flex-wrap items-center gap-x-3 gap-y-2",
+            align === "center" && "justify-center",
+          )}
         >
-          {eyebrow}
-        </Eyebrow>
+          <Eyebrow onField={onField} index={index}>
+            {eyebrow}
+          </Eyebrow>
+          {eyebrowTag ? (
+            <SampleTag label={eyebrowTag} onField={onField} />
+          ) : null}
+        </div>
       ) : null}
       <h2
         className={cn(

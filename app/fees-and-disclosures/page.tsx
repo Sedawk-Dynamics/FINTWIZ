@@ -1,4 +1,5 @@
-import { AlertTriangle, Scale } from "lucide-react";
+import Link from "next/link";
+import { AlertTriangle, ArrowRight, Scale } from "lucide-react";
 import { PageHero } from "@/components/shared/PageHero";
 import { SectionHeading, DisclosureNote, RegBadge } from "@/components/shared/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/shared/Reveal";
@@ -20,6 +21,7 @@ import {
 } from "@/lib/compliance";
 import { costsOverview } from "@/lib/content/pms";
 import { managers } from "@/lib/managers";
+import { SampleTag } from "@/components/shared/SampleTag";
 
 export const metadata = pageMetadata({
   title: "Fees & Disclosures",
@@ -77,7 +79,9 @@ export default function FeesAndDisclosuresPage() {
       <section className="bg-secondary">
         <div className="container-page section-y">
           <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
-            <div>
+            {/* Column, not a block: the band table beside it grows by a row per
+                manager, so this side has to stretch with it. */}
+            <div className="flex flex-col">
               <SectionHeading
                 eyebrow="Conflict of interest"
                 title="Commission differs by manager. That is a problem, and here is how we handle it."
@@ -103,6 +107,26 @@ export default function FeesAndDisclosuresPage() {
                   a better-paying manager was or was not on your list.
                 </p>
               </Reveal>
+
+              <Reveal delay={0.16} className="mt-8 lg:mt-auto lg:pt-8">
+                <Link
+                  href="#disclaimer"
+                  className="group flex items-center justify-between gap-5 rounded-md border border-border bg-card px-5 py-4 transition-colors duration-300 hover:border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                >
+                  <span>
+                    <span className="block font-mono text-[0.64rem] tracking-[0.14em] text-gold-deep uppercase">
+                      Section 03
+                    </span>
+                    <span className="mt-1.5 block text-[0.9rem] text-ink">
+                      How we are paid, and the conflicts that creates
+                    </span>
+                  </span>
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="size-4 shrink-0 text-azure-bright transition-transform duration-300 group-hover:translate-x-0.5"
+                  />
+                </Link>
+              </Reveal>
             </div>
 
             <Reveal delay={0.12} className="h-full">
@@ -118,15 +142,18 @@ export default function FeesAndDisclosuresPage() {
                     <h3 className="text-[1.15rem] text-ink">Commission bands</h3>
                   </div>
                   <p className="mt-5 text-[0.9rem] leading-[1.72] text-slate">
-                    The actual band applying to each empanelled manager is being
-                    finalised and will be published here in full.
+                    The actual band applying to each manager on the roster is
+                    being finalised and will be published here in full.
                   </p>
                 </div>
 
                 {/* Where the bands will appear, so the gap is visible rather than implied. */}
                 <div className="overflow-hidden rounded-md border border-border">
-                  <div className="flex items-center justify-between gap-4 border-b border-border bg-secondary px-4 py-2.5 font-mono text-[0.64rem] tracking-[0.12em] text-slate uppercase">
-                    <span>Manager</span>
+                  <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 border-b border-border bg-secondary px-4 py-2.5 font-mono text-[0.64rem] tracking-[0.12em] text-slate uppercase">
+                    <span className="flex items-center gap-2.5">
+                      Manager
+                      <SampleTag />
+                    </span>
                     <span>Commission band</span>
                   </div>
                   <ul>

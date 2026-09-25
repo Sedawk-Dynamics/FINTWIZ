@@ -113,6 +113,15 @@ export const disclaimerSections: readonly DisclaimerSection[] = [
   },
 ];
 
+/**
+ * The roster in lib/managers.ts illustrates the format of the list. No
+ * empanelment is confirmed yet, so this sentence travels with every surface
+ * that names a portfolio manager, and may only be removed once signed
+ * empanelment and written display consent are on file for each one.
+ */
+export const sampleRosterNote =
+  "These managers are shown to illustrate our platform's format and are not yet confirmed as empanelled partners.";
+
 /** Short, page-level disclosures used as inline notes near relevant content. */
 export const inlineDisclosures = {
   roster: `Figures and descriptions shown for each portfolio manager are sourced from that manager's own disclosures. ${site.brand} does not author, verify or restate manager performance. Inclusion on this roster is not a recommendation.`,

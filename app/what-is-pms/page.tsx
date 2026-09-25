@@ -216,7 +216,7 @@ export default function WhatIsPmsPage() {
 
       <CtaBand
         eyebrow="If it fits"
-        title="See which managers we have empanelled."
+        title="See which managers are on the roster."
         lead="The roster lists each manager's strategy, category and SEBI registration, and links to their own disclosure document so you can read the primary source rather than our summary of it."
         primaryLabel="View the roster"
         primaryHref="/portfolio-managers"
